@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "101450940585",
+    "firebase_url": "https://sodexoclub-1c25a.firebaseio.com",
+    "project_id": "sodexoclub-1c25a",
+    "storage_bucket": "sodexoclub-1c25a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101450940585:android:b1372d1ca02c9ce2",
+        "android_client_info": {
+          "package_name": "sodexo.pe.com.sodexo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101450940585-nf9ddgjp3unb64p5g5kpqm6ddmfis2nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArLHjSZBURA-R55Fotns39rukJ5uWp8yg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101450940585-nf9ddgjp3unb64p5g5kpqm6ddmfis2nu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "101450940585-sfjbqhqfj8qsebngjqtkfqfn3lpk7f4m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.BitPerfect.development"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

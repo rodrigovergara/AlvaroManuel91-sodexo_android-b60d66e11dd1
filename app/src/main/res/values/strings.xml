@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Sodexo Club</string>
+    <string name="intent_filter_broadcast">intent_filter_broadcast</string>
+    <string name="veryfy_permissions">Se nececita los permisos para que la aplicación funcione</string>
+    <string name="key_map">AIzaSyArLHjSZBURA-R55Fotns39rukJ5uWp8yg</string>
+    <string name="header_title_text">Menú</string>
+    <string name="item_menu_comercio">Comercios</string>
+    <string name="internet_conection">No cuenta con una conexión a internet</string>
+    <string name="message_active_gps">Es necesario activar los servicios de localización para poder usar la aplicacíon.</string>
+    <string name="item_menu_promociones">Promociones</string>
+    <string name="promo_title_text">Promociones Recomendadas</string>
+    <string name="item_menu_ruleta">Ruleta</string>
+    <string name="item_menu_club">Sodexo Club</string>
+    <string name="title_sodexo_club">Acerca de SODEXO Club</string>
+    <string name="item_menu_configuracion">Configuración</string>
+    <string name="item_menu_intranet">Consulta tu Saldo</string>
+    <string name="price_range_label">Rango de precios: </string>
+    <string name="attention_label">Atención: </string>
+    <string name="address_label">Dirección: </string>
+    <string name="reserve_label">Reservas: </string>
+    <string name="check_credit_text">Consulta tu saldo</string>
+    <string name="last_movements_text">Últimos Movimientos</string>
+    <string name="choose_number_card">Escoge tu número de tarjeta</string>
+    <string name="choose_card">Selecciona la tarjeta</string>
+    <string name="choose_text">Escoge</string>
+    <string name="edit_profile_text">Modificar Datos Personales</string>
+    <string name="register_cell_text">Afíliate al servicio SMS</string>
+    <string name="item_menu_inicio">Inicio</string>
+    <string name="promo_name_label">Nombre:</string>
+    <string name="promo_description_label">Descripción:</string>
+    <string name="promo_download_text">Descargar cupón</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_password_web_text">Cambiar contraseña Web</string>
+    <string name="remenber_change_password_web_text">Recuerda que esta clave es solo para uso exclusivo en nuestra página web</string>
+    <string name="change_password_card_text">Cambiar clave de tarjeta</string>
+    <string name="log_out_confirmation">¿Desea cerrar sesión de intranet?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="termns_cond"><u>condiciones de uso</u></string>
+    <string name="terms_and_conditions">EL USUARIO declara su conformidad para que SODEXO pueda enviarle la información correspondiente a los saldos de sus tarjetas SODEXO, mensajes de carga, promociones y/o cualquier tipo de información por los medios de comunicación que ha declarado el USUARIO, tal como lo es el servicio de mensajería instantánea (SMS) a los números de telefonía móvil que haya brindado al momento de inscribirse en SODEXO, números que podrá modificar en cualquier momento a través de una comunicación a SODEXO. En tal sentido, la información y los datos personales que se haya declarado a SODEXO y que este utilice para el envío de SMS se considerará cierta, exacta, completa y actualizada, siendo EL USUARIO el único responsable por los daños y perjuicios derivados por una información falsa, inexacta, incompleta o no actualizada que el USUARIO realice. Por otro lado, SODEXO adoptará todas aquellas medidas que se encuentren al alcance de SODEXO para garantizar la seguridad de los datos de carácter personal y evitar su alteración, tratamiento o acceso no autorizado y/o que tal información se utilice para crear una base de datos. De igual manera, si el USUARIO quiere cancelar la suscripción al presente servicio complementario, y no seguir recibiendo los sms que se les envíe podrá cancelarlo en este mismo portal, en cumplimiento de las normas de publicidad que tutela el INDECOPI.</string>
+</resources>

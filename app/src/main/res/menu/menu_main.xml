@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_intranet"
+        android:icon="@drawable/icono_intranet_menu"
+        android:title="@string/item_menu_intranet" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/icono_home"
+        android:title="@string/item_menu_inicio"/>
+    <item
+        android:id="@+id/nav_comercio"
+        android:icon="@drawable/icono_comercios_menu"
+        android:title="@string/item_menu_comercio" />
+    <item
+        android:id="@+id/nav_promo"
+        android:icon="@drawable/icono_promociones_menu"
+        android:title="@string/item_menu_promociones" />
+    <item
+        android:id="@+id/nav_ruleta"
+        android:icon="@drawable/icono_ruleta_menu"
+        android:title="@string/item_menu_ruleta" />
+    <item
+        android:id="@+id/nav_club"
+        android:icon="@drawable/icono_sodexo_menu"
+        android:title="@string/item_menu_club" />
+    <item
+        android:id="@+id/nav_configuracion"
+        android:icon="@drawable/icono_configuracion_menu"
+        android:title="@string/item_menu_configuracion" />
+</menu>

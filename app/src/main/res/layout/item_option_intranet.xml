@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_option"
+    android:layout_width="150dp"
+    android:layout_height="120dp"
+    android:layout_margin="8dp">
+
+    <ImageView
+        android:id="@+id/iv_background_option_intranet"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:contentDescription="@null"
+        android:padding="8dp" />
+
+    <ImageView
+        android:id="@+id/iv_option_intranet"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:layout_below="@id/iv_option_intranet"
+        android:id="@+id/tv_option_intranet"
+        android:layout_width="150dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"/>
+
+</RelativeLayout>

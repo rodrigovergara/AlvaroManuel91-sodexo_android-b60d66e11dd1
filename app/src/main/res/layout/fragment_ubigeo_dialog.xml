@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context="sodexo.pe.com.sodexo.presentation.dialog.UbigeoDialogFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Seleccione un departamento" />
+
+    <Spinner
+        android:gravity="center"
+        android:padding="5dp"
+        android:id="@+id/sp_department"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_spinner"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccione una provincia" />
+
+    <Spinner
+        android:padding="5dp"
+        android:id="@+id/sp_provincie"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_spinner"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccione un distrito" />
+
+    <Spinner
+        android:padding="5dp"
+        android:id="@+id/sp_district"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_spinner"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_margin="8dp"
+        android:background="@color/colorGreen"
+        android:text="Buscar"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
