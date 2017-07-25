@@ -1,6 +1,7 @@
 package sodexo.pe.com.sodexo.presentation.fragment.intranet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ import sodexo.pe.com.sodexo.presentation.presenter.ViewCreditPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.ViewCreditPresenterImplement;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 
-public class BlockCardFragment extends Fragment implements ViewCreditView {
+public class ReplaceCardFragment extends Fragment implements ViewCreditView {
 
     @BindView(R.id.sp_cards)
     Spinner spinner;
@@ -58,7 +59,7 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_block_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_replace_card, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -86,7 +87,12 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @OnClick(R.id.btn_block_card)
     public void blockCard() {
-        AlertUtil.showAlertDialog(getContext(),"Su tarjeta ha sido bloqueada satisfactoriamente");
+        AlertUtil.showMessageAccept(getContext(), "", "Su tarjeta ha sido bloqueada satisfactoriamente", "Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mainView.openPaymentInformation();
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 
+import sodexo.pe.com.sodexo.R;
+
 public class AlertUtil {
     private static AlertDialog setBackground(AlertDialog.Builder mBuilder) {
         AlertDialog mAlertDialog = mBuilder.create();
@@ -175,4 +177,24 @@ public class AlertUtil {
         showMessageAcceptNegative(context, 0, titleText, messageText, positiveButtonText, positiveButtonOnClick, negativeButtonText, negativeButtonOnClick);
     }
 
+    public static void showAlertDialog(Context context, String strMessage) {
+        try {
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(
+                    context);
+            // set the title of the Alert Dialog
+            alertDialogBuilder.setTitle(context.getResources().getText(R.string.app_name));
+
+            alertDialogBuilder.setMessage(strMessage).setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+
+                    });
+
+            alertDialogBuilder.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

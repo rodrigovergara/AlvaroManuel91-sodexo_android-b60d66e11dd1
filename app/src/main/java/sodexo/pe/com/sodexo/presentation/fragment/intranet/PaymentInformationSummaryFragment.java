@@ -1,17 +1,13 @@
 package sodexo.pe.com.sodexo.presentation.fragment.intranet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,7 +18,6 @@ import butterknife.OnClick;
 import sodexo.pe.com.sodexo.R;
 import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
-import sodexo.pe.com.sodexo.presentation.adapter.NumberCardAdapter;
 import sodexo.pe.com.sodexo.presentation.dialog.ProgressCustomDialog;
 import sodexo.pe.com.sodexo.presentation.interfaces.MainView;
 import sodexo.pe.com.sodexo.presentation.interfaces.ViewCreditView;
@@ -30,27 +25,10 @@ import sodexo.pe.com.sodexo.presentation.presenter.ViewCreditPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.ViewCreditPresenterImplement;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 
-public class BlockCardFragment extends Fragment implements ViewCreditView {
+public class PaymentInformationSummaryFragment extends Fragment implements ViewCreditView {
 
-    @BindView(R.id.sp_cards)
-    Spinner spinner;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    /*
-    @BindView(R.id.tv_date)
-    TextView tvDate;
-    */
-    @BindView(R.id.tv_card_number)
-    TextView tvCardNumber;
-    @BindView(R.id.tv_service)
-    TextView tvService;
-    @BindView(R.id.tv_credit)
-    TextView tvCredit;
-    @BindView(R.id.ll_card_detail)
-    LinearLayout llCardDetail;
-
-    @BindView(R.id.btn_block_card)
-    Button btnBlockCard;
 
     private ViewCreditPresenter presenter;
     private ProgressCustomDialog progressCustomDialog;
@@ -58,7 +36,7 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_block_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_information_summary, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -84,9 +62,9 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
         mainView.openIntranetOption();
     }
 
-    @OnClick(R.id.btn_block_card)
-    public void blockCard() {
-        AlertUtil.showAlertDialog(getContext(),"Su tarjeta ha sido bloqueada satisfactoriamente");
+    @OnClick(R.id.btn_request_replacement)
+    public void requestCardReplacement() {
+        AlertUtil.showAlertDialog(getContext(),"Su solicitud de reposición ha sido enviada correctamente.");
     }
 
     @Override
@@ -110,34 +88,13 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @Override
     public void populateSpinner(final List<CardEntity> list) {
-        NumberCardAdapter numberCardAdapter = new NumberCardAdapter(getContext());
-        numberCardAdapter.addCards(list);
-        spinner.setAdapter(numberCardAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  if (i != 0) {
-                                                      tvCardNumber.setText(list.get(i - 1).getCardCode());
-                                                      presenter.getCardDetail(list.get(i - 1));
-                                                  }
 
-                                              }
-
-                                              @Override
-                                              public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                              }
-                                          }
-        );
     }
 
     @Override
     public void showCardDetail(CardDetailEntity cardDetail) {
-        llCardDetail.setVisibility(View.VISIBLE);
-        //tvDate.setText(cardDetail.getDate());
-        btnBlockCard.setEnabled(true);
-        tvCredit.setText(cardDetail.getTotal());
-        tvService.setText(cardDetail.getMessage());
+
 
     }
 }
+

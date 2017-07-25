@@ -1,19 +1,22 @@
 package sodexo.pe.com.sodexo.presentation.fragment.intranet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,27 +33,17 @@ import sodexo.pe.com.sodexo.presentation.presenter.ViewCreditPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.ViewCreditPresenterImplement;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 
-public class BlockCardFragment extends Fragment implements ViewCreditView {
 
-    @BindView(R.id.sp_cards)
-    Spinner spinner;
+public class PaymentInformationFragment extends Fragment implements ViewCreditView {
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    /*
-    @BindView(R.id.tv_date)
-    TextView tvDate;
-    */
-    @BindView(R.id.tv_card_number)
-    TextView tvCardNumber;
-    @BindView(R.id.tv_service)
-    TextView tvService;
-    @BindView(R.id.tv_credit)
-    TextView tvCredit;
-    @BindView(R.id.ll_card_detail)
-    LinearLayout llCardDetail;
 
-    @BindView(R.id.btn_block_card)
-    Button btnBlockCard;
+    @BindView(R.id.sp_delivery_place)
+    Spinner spDeliveryPlace;
+
+    @BindView(R.id.ll_payment_information_location)
+    LinearLayout llPaymentInformationLocation;
 
     private ViewCreditPresenter presenter;
     private ProgressCustomDialog progressCustomDialog;
@@ -58,7 +51,7 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_block_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_payment_information, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -79,15 +72,17 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
         presenter.getNumberCards();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateDeliveryPlace();
+    }
+
     @OnClick(R.id.iv_back)
     public void back() {
         mainView.openIntranetOption();
     }
 
-    @OnClick(R.id.btn_block_card)
-    public void blockCard() {
-        AlertUtil.showAlertDialog(getContext(),"Su tarjeta ha sido bloqueada satisfactoriamente");
-    }
 
     @Override
     public void showLoading() {
@@ -110,34 +105,65 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @Override
     public void populateSpinner(final List<CardEntity> list) {
-        NumberCardAdapter numberCardAdapter = new NumberCardAdapter(getContext());
-        numberCardAdapter.addCards(list);
-        spinner.setAdapter(numberCardAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  if (i != 0) {
-                                                      tvCardNumber.setText(list.get(i - 1).getCardCode());
-                                                      presenter.getCardDetail(list.get(i - 1));
-                                                  }
 
-                                              }
-
-                                              @Override
-                                              public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                              }
-                                          }
-        );
     }
 
     @Override
     public void showCardDetail(CardDetailEntity cardDetail) {
-        llCardDetail.setVisibility(View.VISIBLE);
-        //tvDate.setText(cardDetail.getDate());
-        btnBlockCard.setEnabled(true);
-        tvCredit.setText(cardDetail.getTotal());
-        tvService.setText(cardDetail.getMessage());
+
 
     }
+
+    public void populateDeliveryPlace(){
+        List<CardEntity> itemList = new ArrayList<>();
+
+        itemList.add(new CardEntity("1","Trabajo"));
+        itemList.add(new CardEntity("2","Casa"));
+        itemList.add(new CardEntity("3","Oficinas"));
+        itemList.add(new CardEntity("4","Sodexo"));
+        itemList.add(new CardEntity("5","Otro"));
+
+        NumberCardAdapter deliveryPlaceAdapter = new NumberCardAdapter(getContext());
+        deliveryPlaceAdapter.addCards(itemList);
+        spDeliveryPlace.setAdapter(deliveryPlaceAdapter);
+        spDeliveryPlace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    switch (position){
+                        case 2:
+                        case 5:
+                            llPaymentInformationLocation.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            llPaymentInformationLocation.setVisibility(View.GONE);
+                    }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_next)
+    public void next() {
+        mainView.openPaymentInformationSummary();
+    }
+
+    private static class StringWithTag {
+        public String string;
+        public Object tag;
+
+        public StringWithTag(String string, Object tag) {
+            this.string = string;
+            this.tag = tag;
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
+    }
 }
+

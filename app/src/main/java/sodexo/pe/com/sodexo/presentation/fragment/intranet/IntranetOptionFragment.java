@@ -71,7 +71,6 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
         switch (IntranetOptionEnum.getEnumValue(id)) {
             case VIEW_CREDIT:
                 Log.v("INTRANET-","VIEW_CREDIT");
-                mainView.openBlockCard();
                 mainView.openViewCredit();
                 break;
             case LAST_MOVEMENTS:
@@ -98,6 +97,12 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
                 break;
             case QUIZ:
                 mainView.openQuiz();
+                break;
+            case BLOCK_CARD:
+                mainView.openBlockCard();
+                break;
+            case REPLACE_CARD:
+                mainView.openReplaceCard();
                 break;
         }
     }

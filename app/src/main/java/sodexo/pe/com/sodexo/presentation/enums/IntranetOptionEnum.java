@@ -10,8 +10,8 @@ public enum IntranetOptionEnum {
     WISHLIST("WISHLIST"),
     BLOG("BLOG"),
     QUIZ("ENCUESTAS"),
-    BLOCK_CARD("BLOQUEAR_TARJETA"),
-    REPLACE_CARD("REPONER_TARJETA");
+    BLOCK_CARD("BLOQUEO"),
+    REPLACE_CARD("REPOSICION");
     private String value;
 
     IntranetOptionEnum(String value) {

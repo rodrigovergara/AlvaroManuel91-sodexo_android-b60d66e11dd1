@@ -36,8 +36,6 @@ public interface MainView {
 
     void openViewCredit();
 
-    void openBlockCard();
-
     void openLastMovements();
 
     void openEditProfile();
@@ -73,4 +71,12 @@ public interface MainView {
     void openBlogDetail(BlogEntity blog);
 
     void showQuizDetail(QuizEntity quizEntity);
+
+    void openBlockCard();
+
+    void openReplaceCard();
+
+    void openPaymentInformation();
+
+    void openPaymentInformationSummary();
 }

@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,19 +19,15 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,20 +44,21 @@ import sodexo.pe.com.sodexo.R;
 import sodexo.pe.com.sodexo.data.datasource.rest.retrofit.ApiClient;
 import sodexo.pe.com.sodexo.data.datasource.services.GpsService;
 import sodexo.pe.com.sodexo.data.model.LoginEntityData;
-import sodexo.pe.com.sodexo.data.model.ServiceResponse;
 import sodexo.pe.com.sodexo.data.model.TokenResponse;
 import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
 import sodexo.pe.com.sodexo.domain.entity.CommerceEntity;
 import sodexo.pe.com.sodexo.domain.entity.PromoEntity;
 import sodexo.pe.com.sodexo.domain.entity.QuizEntity;
-import sodexo.pe.com.sodexo.domain.entity.UserEntity;
 import sodexo.pe.com.sodexo.presentation.SodexoApplication;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlockCardFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogDetailFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogListFragment;
+import sodexo.pe.com.sodexo.presentation.fragment.intranet.PaymentInformationFragment;
+import sodexo.pe.com.sodexo.presentation.fragment.intranet.PaymentInformationSummaryFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PromoCommerceFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.QuizDetailFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.QuizFragment;
+import sodexo.pe.com.sodexo.presentation.fragment.intranet.ReplaceCardFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.menu.MenuBaseFragment;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 import sodexo.pe.com.sodexo.presentation.dialog.ProgressCustomDialog;
@@ -470,13 +466,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void openBlockCard() {
-        Fragment fragment = Fragment.instantiate(this, BlockCardFragment.class.getName());
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, BlockCardFragment.class.getName()).commit();
-        tempFragment = fragment;
-    }
-
-    @Override
     public void openLastMovements() {
         Fragment fragment = Fragment.instantiate(this, LastMovementsFragment.class.getName());
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, LastMovementsFragment.class.getName()).commit();
@@ -638,6 +627,46 @@ public class MainActivity extends AppCompatActivity implements MainView {
         bundle.putInt(QuizDetailFragment.QUIZ_ID, quizEntity.getId());
         Fragment fragment = Fragment.instantiate(this, QuizDetailFragment.class.getName(), bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, QuizDetailFragment.class.getName()).commit();
+        tempFragment = fragment;
+    }
+
+    @Override
+    public void openBlockCard() {
+        Fragment fragment = Fragment.instantiate(this, BlockCardFragment.class.getName());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, BlockCardFragment.class.getName()).commit();
+        tempFragment = fragment;
+    }
+
+    @Override
+    public void openReplaceCard() {
+        Fragment fragment = Fragment.instantiate(this, ReplaceCardFragment.class.getName());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, ReplaceCardFragment.class.getName()).commit();
+        tempFragment = fragment;
+    }
+
+    @Override
+    public void openPaymentInformation() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Fragment fragment = Fragment.instantiate(this, PaymentInformationFragment.class.getName());
+
+        ft.add(R.id.fl_container, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.commitAllowingStateLoss();
+        tempFragment = fragment;
+    }
+
+    @Override
+    public void openPaymentInformationSummary() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Fragment fragment = Fragment.instantiate(this, PaymentInformationSummaryFragment.class.getName());
+
+        ft.add(R.id.fl_container, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.commitAllowingStateLoss();
         tempFragment = fragment;
     }
 }
