@@ -1,5 +1,7 @@
 package sodexo.pe.com.sodexo.presentation.presenter.implement;
 
+import android.util.Log;
+
 import sodexo.pe.com.sodexo.data.mapper.IntranetDataMapper;
 import sodexo.pe.com.sodexo.data.repository.IntranetDataRepository;
 import sodexo.pe.com.sodexo.domain.interactor.ChangePasswordInteractor;
@@ -31,9 +33,9 @@ public class ChangePassworsPresenterImplement implements ChangePassworsPresenter
             view.showLoading();
             interactor.changePasswordWeb(password, newPassword, new ChangePasswordInterface() {
                 @Override
-                public void onChangePasswordSuccess() {
+                public void onChangePasswordSuccess(String message) {
                     view.hideLoading();
-                    view.showSuccessMessage("Clave cambiada correctamente");
+                    view.showSuccessMessage(message);
                 }
 
                 @Override

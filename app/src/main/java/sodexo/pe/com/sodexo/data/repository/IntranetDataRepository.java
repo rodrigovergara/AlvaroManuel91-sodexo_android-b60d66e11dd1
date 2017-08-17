@@ -26,6 +26,7 @@ import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
 import sodexo.pe.com.sodexo.presentation.SodexoApplication;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetAllMovements;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
+import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
 import sodexo.pe.com.sodexo.presentation.model.GetBlogListInterface;
@@ -139,13 +140,13 @@ public class IntranetDataRepository implements IntranetRepository {
         IntranetDataStore dataStore = new RestIntranetDataStore();
         dataStore.changePasswordWeb(dni, password, newPassword, new RepositoryCallback() {
             @Override
-            public void onError(Object object) {
-                callback.onChangePasswordError(String.valueOf(object));
+            public void onError(Object message) {
+                callback.onChangePasswordError(String.valueOf(message));
             }
 
             @Override
-            public void onSuccess(Object object) {
-                callback.onChangePasswordSuccess();
+            public void onSuccess(Object message) {
+                callback.onChangePasswordSuccess(String.valueOf(message));
             }
         });
     }
@@ -155,13 +156,13 @@ public class IntranetDataRepository implements IntranetRepository {
         IntranetDataStore dataStore = new RestIntranetDataStore();
         dataStore.changePasswordCard(dni, cardNumber, password, newPassword, repeatPassword, new RepositoryCallback() {
             @Override
-            public void onError(Object object) {
-                callback.onChangePasswordError(String.valueOf(object));
+            public void onError(Object message) {
+                callback.onChangePasswordError(String.valueOf(message));
             }
 
             @Override
-            public void onSuccess(Object object) {
-                callback.onChangePasswordSuccess();
+            public void onSuccess(Object message) {
+                callback.onChangePasswordSuccess(String.valueOf(message));
             }
         });
     }
@@ -210,22 +211,6 @@ public class IntranetDataRepository implements IntranetRepository {
             @Override
             public void onSuccess(Object object) {
                 callback.onGetCellInfoSuccess(dataMapper.transformToCellInfoEntity((CellInfoEntityData) object));
-            }
-        });
-    }
-
-    @Override
-    public void updateCellInfo(String dni, String cellphoneNumber, String operator, String active, final UpdateCellInfoInterface callback) {
-        IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.updateCellInfo(dni, cellphoneNumber, operator, active, new RepositoryCallback() {
-            @Override
-            public void onError(Object object) {
-                callback.onUpdateCellInfoError(String.valueOf(object));
-            }
-
-            @Override
-            public void onSuccess(Object object) {
-                callback.onUpdateCellInfoSuccess();
             }
         });
     }
@@ -341,4 +326,37 @@ public class IntranetDataRepository implements IntranetRepository {
             }
         });
     }
+
+    @Override
+    public void updateCellInfo(String dni, String cellphoneNumber, String operator, String active, final UpdateCellInfoInterface callback) {
+        IntranetDataStore dataStore = new RestIntranetDataStore();
+        dataStore.updateCellInfo(dni, cellphoneNumber, operator, active, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onUpdateCellInfoError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onUpdateCellInfoSuccess();
+            }
+        });
+    }
+
+    @Override
+    public void blockCard(String cardNumber, final BaseParentInterface callback) {
+        IntranetDataStore dataStore = new RestIntranetDataStore();
+        dataStore.blockCard(cardNumber, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onSuccess(String.valueOf(object));
+            }
+        });
+    }
+
 }

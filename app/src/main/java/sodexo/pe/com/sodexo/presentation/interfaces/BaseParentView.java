@@ -6,12 +6,14 @@ import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
 
 /**
- * Created by RONALD on 12/10/2016.
+ * Created by asahel on 16/06/2017.
  */
 
-public interface ViewCreditView extends BaseParentView{
+public interface BaseParentView {
+    void showLoading();
 
-    void populateSpinner(List<CardEntity> list);
+    void hideLoading();
 
-    void showCardDetail(CardDetailEntity cardDetail);
+    void showError(String message);
+    
 }

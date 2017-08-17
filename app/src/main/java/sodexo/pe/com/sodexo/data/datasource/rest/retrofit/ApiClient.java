@@ -23,7 +23,7 @@ public class ApiClient {
 
             Retrofit restAdapter = new Retrofit.Builder()
                     //.baseUrl("http://sodexo.bitperfect.pe/api/App/")
-                    .baseUrl("http://sodexoclub.com.pe/api/App/")
+                    .baseUrl("http://191.98.133.35:8080/api/App/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();
@@ -41,7 +41,7 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
             Retrofit restAdapter = new Retrofit.Builder()
-                    .baseUrl("http://201.234.48.227:8080/ws/sodexo/")
+                    .baseUrl("http://201.234.48.227:8080/ws/sodexo/")//http://201.234.48.227:8080/ws/sodexo/
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();

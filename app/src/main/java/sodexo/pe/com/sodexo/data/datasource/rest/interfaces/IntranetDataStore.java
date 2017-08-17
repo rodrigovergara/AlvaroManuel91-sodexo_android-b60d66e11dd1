@@ -45,4 +45,8 @@ public interface IntranetDataStore {
     void getQuestions(String dni, int quizId, RepositoryCallback callback);
 
     void sendReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, RepositoryCallback callback);
+
+    void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback);
+
+    void blockCard(String cardNumber, RepositoryCallback callback);
 }

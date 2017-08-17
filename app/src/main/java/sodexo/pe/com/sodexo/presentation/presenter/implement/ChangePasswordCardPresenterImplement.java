@@ -1,5 +1,7 @@
 package sodexo.pe.com.sodexo.presentation.presenter.implement;
 
+import android.util.Log;
+
 import java.util.List;
 
 import sodexo.pe.com.sodexo.data.mapper.IntranetDataMapper;
@@ -32,9 +34,9 @@ public class ChangePasswordCardPresenterImplement implements ChangePasswordCardP
         view.showLoading();
         changePasswordInteractor.changePasswordCard(cardEntity, password, newPassword, repeatNewPassword, new ChangePasswordInterface() {
             @Override
-            public void onChangePasswordSuccess() {
+            public void onChangePasswordSuccess(String message) {
                 view.hideLoading();
-                view.showError("La clave se cambio correctamente");
+                view.showError(message);
             }
 
             @Override

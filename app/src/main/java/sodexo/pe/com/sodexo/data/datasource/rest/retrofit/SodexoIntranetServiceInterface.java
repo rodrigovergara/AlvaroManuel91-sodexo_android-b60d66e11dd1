@@ -74,4 +74,12 @@ public interface SodexoIntranetServiceInterface {
     @FormUrlEncoded
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<ServiceResponse<Object>> updateCellInfo(@FieldMap Map<String, String> params);
+
+    @POST("http://10.51.0.18/ws_alexis/sodexo/post/ReposicionesNuevo")
+    Call<ServiceResponse<Object>> replaceCard(@FieldMap Map<String, String> params);
+
+    @POST("http://10.51.0.18/ws_alexis/sodexo/post/BloqueoTarjeta")
+    @FormUrlEncoded
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<ServiceResponse<Object>> blockCard(@FieldMap Map<String, String> params);
 }

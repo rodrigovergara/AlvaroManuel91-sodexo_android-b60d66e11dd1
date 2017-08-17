@@ -5,6 +5,6 @@ package sodexo.pe.com.sodexo.presentation.model;
  */
 
 public interface ChangePasswordInterface {
-    void onChangePasswordSuccess();
+    void onChangePasswordSuccess(String message);
     void onChangePasswordError(String message);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetAllMovements;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
+import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
 import sodexo.pe.com.sodexo.presentation.model.GetBlogListInterface;
@@ -60,4 +61,6 @@ public interface IntranetRepository {
     void getQuestions(String dni, int quizId, GetQuestionsInterface getQuestionsInterface);
 
     void senReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, SendResponseQuizInterface sendResponseQuizInterface);
+
+    void blockCard(String cardNumber, BaseParentInterface callback);
 }

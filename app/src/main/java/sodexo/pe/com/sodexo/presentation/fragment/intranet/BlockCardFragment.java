@@ -24,13 +24,16 @@ import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
 import sodexo.pe.com.sodexo.presentation.adapter.NumberCardAdapter;
 import sodexo.pe.com.sodexo.presentation.dialog.ProgressCustomDialog;
+import sodexo.pe.com.sodexo.presentation.interfaces.BlockCardView;
 import sodexo.pe.com.sodexo.presentation.interfaces.MainView;
 import sodexo.pe.com.sodexo.presentation.interfaces.ViewCreditView;
+import sodexo.pe.com.sodexo.presentation.presenter.BlockCardPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.ViewCreditPresenter;
+import sodexo.pe.com.sodexo.presentation.presenter.implement.BlockCardPresenterImplement;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.ViewCreditPresenterImplement;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 
-public class BlockCardFragment extends Fragment implements ViewCreditView {
+public class BlockCardFragment extends Fragment implements BlockCardView {
 
     @BindView(R.id.sp_cards)
     Spinner spinner;
@@ -52,7 +55,10 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
     @BindView(R.id.btn_block_card)
     Button btnBlockCard;
 
+    private String cardNumber;
+
     private ViewCreditPresenter presenter;
+    private BlockCardPresenter blockCardPresenter;
     private ProgressCustomDialog progressCustomDialog;
     private MainView mainView;
 
@@ -75,6 +81,7 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
     public void onStart() {
         super.onStart();
         presenter = new ViewCreditPresenterImplement(this);
+        blockCardPresenter = new BlockCardPresenterImplement(this);
         progressCustomDialog = new ProgressCustomDialog();
         presenter.getNumberCards();
     }
@@ -86,7 +93,10 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
 
     @OnClick(R.id.btn_block_card)
     public void blockCard() {
-        AlertUtil.showAlertDialog(getContext(),"Su tarjeta ha sido bloqueada satisfactoriamente");
+        if(cardNumber == null)
+            AlertUtil.showAlertDialog(getContext(),"Por favor, seleccione una tarjeta.");
+        else
+            blockCardPresenter.blockCard(cardNumber);
     }
 
     @Override
@@ -119,13 +129,16 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
                                                   if (i != 0) {
                                                       tvCardNumber.setText(list.get(i - 1).getCardCode());
                                                       presenter.getCardDetail(list.get(i - 1));
+                                                      cardNumber = list.get(i - 1).getCardNumber();
+                                                  }else{
+                                                      cardNumber = null;
                                                   }
 
                                               }
 
                                               @Override
                                               public void onNothingSelected(AdapterView<?> adapterView) {
-
+                                                  cardNumber = null;
                                               }
                                           }
         );
@@ -139,5 +152,11 @@ public class BlockCardFragment extends Fragment implements ViewCreditView {
         tvCredit.setText(cardDetail.getTotal());
         tvService.setText(cardDetail.getMessage());
 
+    }
+
+    @Override
+    public void onBlockCardSuccess(String message) {
+        //"Su tarjeta ha sido bloqueada satisfactoriamente"
+        AlertUtil.showAlertDialog(getContext(),message);
     }
 }

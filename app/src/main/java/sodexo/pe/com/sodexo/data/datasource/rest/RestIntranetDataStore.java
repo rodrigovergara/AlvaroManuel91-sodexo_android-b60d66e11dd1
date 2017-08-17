@@ -194,6 +194,7 @@ public class RestIntranetDataStore implements IntranetDataStore {
     @Override
     public void changePasswordCard(String dni, String cardNumber, String password, String newPassword, String repeatPassword, final RepositoryCallback repositoryCallback) {
         Map<String, String> params = new HashMap<String, String>();
+        Log.wtf("DATA->","->" + dni + " - " + cardNumber +" - " + password + " - " + newPassword + " - " + repeatPassword);
         params.put("dni", dni);
         params.put("tarjeta", cardNumber);
         params.put("ClaveActual", password);
@@ -204,7 +205,7 @@ public class RestIntranetDataStore implements IntranetDataStore {
             @Override
             public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
                 if (response.isSuccessful()) {
-                    repositoryCallback.onSuccess(response.body());
+                    repositoryCallback.onSuccess(response.body().getMessage());
                 } else {
                     repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
                 }
@@ -497,5 +498,33 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
             }
         });
+    }
+
+    @Override
+    public void blockCard(String cardNumber, final RepositoryCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("numeroTarjeta", cardNumber);
+
+        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(params);
+        call.enqueue(new Callback<ServiceResponse<Object>>() {
+            @Override
+            public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
+                if (response.body().isError()) {
+                    callback.onError(response.body().getMessage());
+                } else {
+                    callback.onSuccess(response.body().getData());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServiceResponse<Object>> call, Throwable t) {
+                callback.onError("Ocurrio un error. intentelo nuevamente");
+            }
+        });
+    }
+
+    @Override
+    public void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback) {
+
     }
 }

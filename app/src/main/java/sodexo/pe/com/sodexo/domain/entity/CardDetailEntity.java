@@ -8,6 +8,7 @@ public class CardDetailEntity {
     private String date;
     private String total;
     private String message;
+    private String cardNumber;
 
     public String getDate() {
         return date;
@@ -31,5 +32,13 @@ public class CardDetailEntity {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 }
