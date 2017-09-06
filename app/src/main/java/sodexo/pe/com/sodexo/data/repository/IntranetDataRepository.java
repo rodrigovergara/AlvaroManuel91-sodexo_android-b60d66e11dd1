@@ -9,6 +9,7 @@ import java.util.List;
 import sodexo.pe.com.sodexo.data.datasource.rest.RestIntranetDataStore;
 import sodexo.pe.com.sodexo.data.datasource.rest.interfaces.IntranetDataStore;
 import sodexo.pe.com.sodexo.data.mapper.IntranetDataMapper;
+import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
 import sodexo.pe.com.sodexo.data.model.BlogEntityData;
 import sodexo.pe.com.sodexo.data.model.CardDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.CardEntityData;
@@ -29,6 +30,7 @@ import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
 import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
+import sodexo.pe.com.sodexo.presentation.model.GetBlockingReasonsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetBlogListInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetCardDetailInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetCardsInterface;
@@ -218,7 +220,7 @@ public class IntranetDataRepository implements IntranetRepository {
     @Override
     public void getOptions(String userId, final GetIntranetOptionInterface callback) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.getOptionsnew(userId, new RepositoryCallback(){
+        dataStore.getOptionsnew(userId, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 callback.onGetIntranetOptionError(String.valueOf(object));
@@ -250,7 +252,7 @@ public class IntranetDataRepository implements IntranetRepository {
     @Override
     public void registerUserWithCard(String dni, String card, String password, String confirmPassword, String email, final RegisterInterface registerInterface) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.getRegisterWithCard(dni, card, password, confirmPassword, email, new RepositoryCallback(){
+        dataStore.getRegisterWithCard(dni, card, password, confirmPassword, email, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 registerInterface.onRegisterError(String.valueOf(object));
@@ -260,13 +262,13 @@ public class IntranetDataRepository implements IntranetRepository {
             public void onSuccess(Object object) {
                 registerInterface.onRegisterSuccess();
             }
-        } );
+        });
     }
 
     @Override
     public void registerUserWithoutCard(String dni, String ruc, String password, String confirmPassword, String email, String name, String lastName, final RegisterInterface registerInterface) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.getRegisterWithoutCard(dni, ruc, password, confirmPassword, email, name, lastName, new RepositoryCallback(){
+        dataStore.getRegisterWithoutCard(dni, ruc, password, confirmPassword, email, name, lastName, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 registerInterface.onRegisterError(String.valueOf(object));
@@ -276,13 +278,13 @@ public class IntranetDataRepository implements IntranetRepository {
             public void onSuccess(Object object) {
                 registerInterface.onRegisterSuccess();
             }
-        } );
+        });
     }
 
     @Override
     public void getQuizList(String dni, final GetQuizListInterface getQuizListInterface) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.getQuizList(dni, new RepositoryCallback(){
+        dataStore.getQuizList(dni, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 getQuizListInterface.onGetQuizListError(String.valueOf(object));
@@ -298,7 +300,7 @@ public class IntranetDataRepository implements IntranetRepository {
     @Override
     public void getQuestions(String dni, int quizId, final GetQuestionsInterface getQuestionsInterface) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.getQuestions(dni, quizId, new RepositoryCallback(){
+        dataStore.getQuestions(dni, quizId, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 getQuestionsInterface.onGetQuestionsError(String.valueOf(object));
@@ -314,7 +316,7 @@ public class IntranetDataRepository implements IntranetRepository {
     @Override
     public void senReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, final SendResponseQuizInterface sendResponseQuizInterface) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.sendReponseQuiz(dni, quizId, list,new RepositoryCallback() {
+        dataStore.sendReponseQuiz(dni, quizId, list, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 sendResponseQuizInterface.onSnedResponseError(String.valueOf(object));
@@ -359,4 +361,35 @@ public class IntranetDataRepository implements IntranetRepository {
         });
     }
 
+    @Override
+    public void getReplacementCardNumbers(String dni,final GetCardsInterface callback) {
+        IntranetDataStore dataStore = new RestIntranetDataStore();
+        dataStore.getReplacementCardNumbers(dni, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onGetCardsError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onGetCardsSucces(dataMapper.trasnformToCardsEntity((List<CardEntityData>) object));
+            }
+        });
+    }
+
+    @Override
+    public void getBlockingReasons(final GetBlockingReasonsInterface callback) {
+        IntranetDataStore intranetDataStore = new RestIntranetDataStore();
+        intranetDataStore.getBlockingReasons(new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onGetBlockingReasonsError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onGetBlockingReasonsSuccess(dataMapper.trasnformToBlockingReasonsEntity((List<BlockingReasonEntityData>)object));
+            }
+        });
+    }
 }

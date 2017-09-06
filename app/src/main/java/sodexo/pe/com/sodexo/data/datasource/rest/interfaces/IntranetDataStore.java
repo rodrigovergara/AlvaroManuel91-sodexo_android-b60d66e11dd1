@@ -49,4 +49,8 @@ public interface IntranetDataStore {
     void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback);
 
     void blockCard(String cardNumber, RepositoryCallback callback);
+
+    void getReplacementCardNumbers(String dni, final RepositoryCallback repositoryCallback);
+
+    void getBlockingReasons(final RepositoryCallback repositoryCallback);
 }

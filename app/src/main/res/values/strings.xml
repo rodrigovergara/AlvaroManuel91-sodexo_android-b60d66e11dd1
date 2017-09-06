@@ -57,4 +57,5 @@
     <string name="replacement_cost">Costo de reposición:</string>
     <string name="shipping_cost">Costo de envio:</string>
     <string name="btn_request_replacement">Solicitar Reposición</string>
+    <string name="reason_text">Motivo :</string>
 </resources>

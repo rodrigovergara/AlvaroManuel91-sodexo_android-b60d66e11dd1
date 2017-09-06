@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,28 +18,38 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
+import java.util.RandomAccess;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sodexo.pe.com.sodexo.R;
+import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
+import sodexo.pe.com.sodexo.presentation.adapter.BlockingReasonAdapter;
 import sodexo.pe.com.sodexo.presentation.adapter.NumberCardAdapter;
 import sodexo.pe.com.sodexo.presentation.dialog.ProgressCustomDialog;
 import sodexo.pe.com.sodexo.presentation.interfaces.MainView;
 import sodexo.pe.com.sodexo.presentation.interfaces.ReplaceCardView;
 import sodexo.pe.com.sodexo.presentation.interfaces.ViewCreditView;
 import sodexo.pe.com.sodexo.presentation.presenter.BlockCardPresenter;
+import sodexo.pe.com.sodexo.presentation.presenter.ReplaceCardPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.ViewCreditPresenter;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.BlockCardPresenterImplement;
+import sodexo.pe.com.sodexo.presentation.presenter.implement.ReplaceCardPresenterImplement;
 import sodexo.pe.com.sodexo.presentation.presenter.implement.ViewCreditPresenterImplement;
 import sodexo.pe.com.sodexo.util.AlertUtil;
 
 public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
 
     @BindView(R.id.sp_cards)
-    Spinner spinner;
+    Spinner spCards;
+
+    @BindView(R.id.sp_reasons)
+    Spinner spReasons;
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
     /*
@@ -53,11 +65,10 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     @BindView(R.id.ll_card_detail)
     LinearLayout llCardDetail;
 
-    @BindView(R.id.btn_block_card)
+    @BindView(R.id.btn_manage_card_replenishment)
     Button btnBlockCard;
 
-    private ViewCreditPresenter presenter;
-    private BlockCardPresenter blockCardPresenter;
+    private ReplaceCardPresenter replaceCardPresenter;
     private ProgressCustomDialog progressCustomDialog;
     private MainView mainView;
 
@@ -67,6 +78,9 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_replace_card, container, false);
         ButterKnife.bind(this, view);
+        replaceCardPresenter = new ReplaceCardPresenterImplement(this);
+        progressCustomDialog = new ProgressCustomDialog();
+        replaceCardPresenter.getReplacementCardNumbers();
         return view;
     }
 
@@ -81,10 +95,6 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     @Override
     public void onStart() {
         super.onStart();
-        presenter = new ViewCreditPresenterImplement(this);
-        blockCardPresenter = new BlockCardPresenterImplement(this);
-        progressCustomDialog = new ProgressCustomDialog();
-        presenter.getNumberCards();
     }
 
     @OnClick(R.id.iv_back)
@@ -97,7 +107,7 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
         if(cardNumber == null)
             AlertUtil.showAlertDialog(getContext(),"Por favor, seleccione una tarjeta.");
         else
-            blockCardPresenter.blockCard(cardNumber);
+            replaceCardPresenter.blockCard(cardNumber);
     }
 
     @Override
@@ -120,16 +130,18 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     }
 
     @Override
-    public void populateSpinner(final List<CardEntity> list) {
+    public void populateReplacementCards(final List<CardEntity> list) {
+        replaceCardPresenter.getBlockingReasons();
         NumberCardAdapter numberCardAdapter = new NumberCardAdapter(getContext());
         numberCardAdapter.addCards(list);
-        spinner.setAdapter(numberCardAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spCards.setAdapter(numberCardAdapter);
+        spCards.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                   if (i != 0) {
                                                       tvCardNumber.setText(list.get(i - 1).getCardCode());
-                                                      presenter.getCardDetail(list.get(i - 1));
+                                                      replaceCardPresenter.getCardDetail(list.get(i - 1));
+                                                      cardNumber = list.get(i - 1).getCardNumber();
                                                   }else{
                                                       cardNumber = null;
                                                   }
@@ -142,6 +154,12 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
                                               }
                                           }
         );
+    }
+
+    @Override
+    public void populateReasonsSpinner(List<BlockingReasonEntity> list) {
+        BlockingReasonAdapter blockingReasonAdapter = new BlockingReasonAdapter(list,getContext());
+        spReasons.setAdapter(blockingReasonAdapter);
     }
 
     @Override
@@ -163,4 +181,6 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
             }
         });
     }
+
+
 }

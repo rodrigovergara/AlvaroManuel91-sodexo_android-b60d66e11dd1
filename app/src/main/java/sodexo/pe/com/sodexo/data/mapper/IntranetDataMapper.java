@@ -3,6 +3,7 @@ package sodexo.pe.com.sodexo.data.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
 import sodexo.pe.com.sodexo.data.model.BlogEntityData;
 import sodexo.pe.com.sodexo.data.model.CardDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.CardEntityData;
@@ -12,6 +13,7 @@ import sodexo.pe.com.sodexo.data.model.IntranetOptionEntityData;
 import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
+import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
@@ -141,5 +143,13 @@ public class IntranetDataMapper {
             list.add(entity);
         }
         return list;
+    }
+
+    public List<BlockingReasonEntity> trasnformToBlockingReasonsEntity(List<BlockingReasonEntityData> object) {
+        List<BlockingReasonEntity> blockingReasonEntities = new ArrayList<>();
+        for (BlockingReasonEntityData blockingReasonEntityData : object) {
+            blockingReasonEntities.add(new BlockingReasonEntity(blockingReasonEntityData.getId(),blockingReasonEntityData.getDescription()));
+        }
+        return blockingReasonEntities;
     }
 }

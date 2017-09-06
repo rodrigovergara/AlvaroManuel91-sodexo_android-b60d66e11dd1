@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import sodexo.pe.com.sodexo.data.datasource.rest.interfaces.IntranetDataStore;
 import sodexo.pe.com.sodexo.data.datasource.rest.retrofit.ApiClient;
+import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
 import sodexo.pe.com.sodexo.data.model.BlogEntityData;
 import sodexo.pe.com.sodexo.data.model.CardDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.CardEntityData;
@@ -502,17 +503,23 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
     @Override
     public void blockCard(String cardNumber, final RepositoryCallback callback) {
+        /*
         Map<String, String> params = new HashMap<String, String>();
         params.put("numeroTarjeta", cardNumber);
+        */
 
-        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(params);
+        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(cardNumber);
         call.enqueue(new Callback<ServiceResponse<Object>>() {
             @Override
             public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
-                if (response.body().isError()) {
-                    callback.onError(response.body().getMessage());
-                } else {
-                    callback.onSuccess(response.body().getData());
+                if(response.body() != null){
+                    if (response.body().isError()) {
+                        callback.onError(response.body().getMessage());
+                    } else {
+                        callback.onSuccess(response.body().getMessage());
+                    }
+                }else{
+                    callback.onSuccess("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente");
                 }
             }
 
@@ -522,6 +529,48 @@ public class RestIntranetDataStore implements IntranetDataStore {
             }
         });
     }
+
+    @Override
+    public void getReplacementCardNumbers(String dni, final RepositoryCallback repositoryCallback) {
+        Call<ServiceResponse<List<CardEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getReplacementCardNumbers(dni);
+        call.enqueue(new Callback<ServiceResponse<List<CardEntityData>>>() {
+            @Override
+            public void onResponse(Call<ServiceResponse<List<CardEntityData>>> call, Response<ServiceResponse<List<CardEntityData>>> response) {
+                if (response.isSuccessful()) {
+                    repositoryCallback.onSuccess(response.body().getData());
+                } else {
+                    repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServiceResponse<List<CardEntityData>>> call, Throwable t) {
+                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+            }
+        });
+    }
+
+    @Override
+    public void getBlockingReasons(final RepositoryCallback repositoryCallback) {
+        Call<List<BlockingReasonEntityData>> call = ApiClient.getSodexoIntranetApiClient().getBlockingReasons();
+        call.enqueue(new Callback<List<BlockingReasonEntityData>>() {
+            @Override
+            public void onResponse(Call<List<BlockingReasonEntityData>> call, Response<List<BlockingReasonEntityData>> response) {
+                if (response.isSuccessful()) {
+                    repositoryCallback.onSuccess(response.body());
+                } else {
+                    repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BlockingReasonEntityData>> call, Throwable t) {
+                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                t.printStackTrace();
+            }
+        });
+    }
+
 
     @Override
     public void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback) {

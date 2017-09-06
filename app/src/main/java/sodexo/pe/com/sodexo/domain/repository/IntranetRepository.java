@@ -8,6 +8,7 @@ import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
 import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
+import sodexo.pe.com.sodexo.presentation.model.GetBlockingReasonsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetBlogListInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetCardDetailInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetCardsInterface;
@@ -63,4 +64,8 @@ public interface IntranetRepository {
     void senReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, SendResponseQuizInterface sendResponseQuizInterface);
 
     void blockCard(String cardNumber, BaseParentInterface callback);
+
+    void getReplacementCardNumbers(String dni, GetCardsInterface callback);
+
+    void getBlockingReasons(GetBlockingReasonsInterface callback);
 }
