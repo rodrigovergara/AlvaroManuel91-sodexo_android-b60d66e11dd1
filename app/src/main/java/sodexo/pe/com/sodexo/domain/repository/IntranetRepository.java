@@ -63,7 +63,7 @@ public interface IntranetRepository {
 
     void senReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, SendResponseQuizInterface sendResponseQuizInterface);
 
-    void blockCard(String cardNumber, BaseParentInterface callback);
+    void blockCard(String cardNumber, String reasonId, BaseParentInterface callback);
 
     void getReplacementCardNumbers(String dni, GetCardsInterface callback);
 

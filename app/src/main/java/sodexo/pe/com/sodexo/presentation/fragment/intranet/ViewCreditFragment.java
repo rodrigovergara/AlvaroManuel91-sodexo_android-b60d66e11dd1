@@ -95,7 +95,7 @@ public class ViewCreditFragment extends Fragment implements ViewCreditView {
     }
 
     @Override
-    public void populateSpinner(final List<CardEntity> list) {
+    public void populateReplacementCards(final List<CardEntity> list) {
         NumberCardAdapter numberCardAdapter = new NumberCardAdapter(getContext());
         numberCardAdapter.addCards(list);
         spinner.setAdapter(numberCardAdapter);

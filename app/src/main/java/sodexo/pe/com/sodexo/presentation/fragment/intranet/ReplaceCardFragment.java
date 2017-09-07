@@ -73,6 +73,7 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     private MainView mainView;
 
     private String cardNumber;
+    private String reasonId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -106,8 +107,10 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     public void blockCard() {
         if(cardNumber == null)
             AlertUtil.showAlertDialog(getContext(),"Por favor, seleccione una tarjeta.");
+        else if(reasonId == null)
+            AlertUtil.showAlertDialog(getContext(),"Por favor, seleccione un motivo.");
         else
-            replaceCardPresenter.blockCard(cardNumber);
+            replaceCardPresenter.blockCard(cardNumber,reasonId);
     }
 
     @Override
@@ -157,16 +160,33 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
     }
 
     @Override
-    public void populateReasonsSpinner(List<BlockingReasonEntity> list) {
+    public void populateReasonsSpinner(final List<BlockingReasonEntity> list) {
         BlockingReasonAdapter blockingReasonAdapter = new BlockingReasonAdapter(list,getContext());
         spReasons.setAdapter(blockingReasonAdapter);
+        spReasons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    btnBlockCard.setEnabled(false);
+                    reasonId = null;
+                }else{
+                    btnBlockCard.setEnabled(true);
+                    reasonId = list.get(position-1).getId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                btnBlockCard.setEnabled(false);
+                reasonId = null;
+            }
+        });
     }
 
     @Override
     public void showCardDetail(CardDetailEntity cardDetail) {
         llCardDetail.setVisibility(View.VISIBLE);
         //tvDate.setText(cardDetail.getDate());
-        btnBlockCard.setEnabled(true);
         tvCredit.setText(cardDetail.getTotal());
         tvService.setText(cardDetail.getMessage());
 

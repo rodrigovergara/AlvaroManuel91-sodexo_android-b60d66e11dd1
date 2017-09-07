@@ -37,9 +37,9 @@ public class ReplaceCardPresenterImplement implements ReplaceCardPresenter {
     }
 
     @Override
-    public void blockCard(String cardNumber) {
+    public void blockCard(String cardNumber,String reasonId) {
         view.showLoading();
-        blockCardInteractor.blockCard(cardNumber, new BaseParentInterface() {
+        blockCardInteractor.blockCard(cardNumber,reasonId, new BaseParentInterface() {
             @Override
             public void onSuccess(String message) {
                 view.hideLoading();
@@ -93,7 +93,7 @@ public class ReplaceCardPresenterImplement implements ReplaceCardPresenter {
     @Override
     public void getBlockingReasons() {
         view.showLoading();
-        replaceCardInteractor.getBlockingReasons(new GetBlockingReasonsInterface() {
+        blockCardInteractor.getBlockingReasons(new GetBlockingReasonsInterface() {
             @Override
             public void onGetBlockingReasonsSuccess(List<BlockingReasonEntity> list) {
                 view.hideLoading();

@@ -120,7 +120,7 @@ public class PaymentInformationFragment extends Fragment implements ViewCreditVi
     }
 
     @Override
-    public void populateSpinner(final List<CardEntity> list) {
+    public void populateReplacementCards(final List<CardEntity> list) {
 
     }
 

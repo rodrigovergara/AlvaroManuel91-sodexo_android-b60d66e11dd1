@@ -10,15 +10,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import sodexo.pe.com.sodexo.data.model.CardDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.CardEntityData;
 import sodexo.pe.com.sodexo.data.model.CardTypeEntitiyData;
 import sodexo.pe.com.sodexo.data.model.CellInfoEntityData;
 import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.LoginEntityData;
+import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
 import sodexo.pe.com.sodexo.data.model.ServiceResponse;
-import sodexo.pe.com.sodexo.data.model.TokenResponse;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 
 /**
@@ -75,11 +74,18 @@ public interface SodexoIntranetServiceInterface {
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<ServiceResponse<Object>> updateCellInfo(@FieldMap Map<String, String> params);
 
-    @POST("http://10.51.0.18/ws_alexis/sodexo/post/ReposicionesNuevo")
+    @POST("post/ReposicionesNuevo")
     Call<ServiceResponse<Object>> replaceCard(@FieldMap Map<String, String> params);
 
-    @POST("http://10.51.0.18/ws_alexis/sodexo/post/BloqueoTarjeta")
-    @FormUrlEncoded
+    @GET("get/BloqueoTarjeta/{cardNumber}/{reasonId}")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
-    Call<ServiceResponse<Object>> blockCard(@FieldMap Map<String, String> params);
+    Call<ServiceResponse<Object>> blockCard(/*@FieldMap Map<String, String> params*/@Path("cardNumber") String cardNumber,@Path("reasonId") String reasonId);
+
+    @GET("get/ListNumTarRepo/{dni}")
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<ServiceResponse<List<CardEntityData>>> getReplacementCardNumbers(@Path("dni") String dni);
+
+    @GET("get/MotivoBloq/")
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<List<BlockingReasonEntityData>>getBlockingReasons();
 }

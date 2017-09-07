@@ -5,5 +5,6 @@ package sodexo.pe.com.sodexo.presentation.presenter;
  */
 
 public interface BlockCardPresenter {
-    void blockCard(String cardNumber);
+    void blockCard(String cardNumber,String reasonId);
+    void getBlockingReasons();
 }

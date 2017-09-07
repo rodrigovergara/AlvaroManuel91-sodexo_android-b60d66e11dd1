@@ -10,7 +10,5 @@ public interface ReplaceCardPresenter extends BlockCardPresenter {
 
     void getReplacementCardNumbers();
 
-    void getBlockingReasons();
-
     void getCardDetail(CardEntity cardEntity);
 }

@@ -35,7 +35,7 @@ public class ViewCreditPresenterImplement implements ViewCreditPresenter {
             @Override
             public void onGetCardsSucces(List<CardEntity> list) {
                 view.hideLoading();
-                view.populateSpinner(list);
+                view.populateReplacementCards(list);
             }
 
             @Override

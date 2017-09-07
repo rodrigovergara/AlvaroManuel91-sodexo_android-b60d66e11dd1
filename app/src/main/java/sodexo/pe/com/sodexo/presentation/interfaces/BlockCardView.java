@@ -1,5 +1,8 @@
 package sodexo.pe.com.sodexo.presentation.interfaces;
 
+import java.util.List;
+
+import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 
 /**
@@ -9,4 +12,5 @@ import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 public interface BlockCardView extends ViewCreditView{
 
     void onBlockCardSuccess(String message);
+    void populateReasonsSpinner(List<BlockingReasonEntity> list);
 }

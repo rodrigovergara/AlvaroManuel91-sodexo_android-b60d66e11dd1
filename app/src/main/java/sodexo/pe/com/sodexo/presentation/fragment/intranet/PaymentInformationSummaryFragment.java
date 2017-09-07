@@ -87,7 +87,7 @@ public class PaymentInformationSummaryFragment extends Fragment implements ViewC
     }
 
     @Override
-    public void populateSpinner(final List<CardEntity> list) {
+    public void populateReplacementCards(final List<CardEntity> list) {
 
     }
 

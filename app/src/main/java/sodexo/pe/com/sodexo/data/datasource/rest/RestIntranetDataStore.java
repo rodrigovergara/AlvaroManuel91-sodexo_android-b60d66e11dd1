@@ -502,24 +502,28 @@ public class RestIntranetDataStore implements IntranetDataStore {
     }
 
     @Override
-    public void blockCard(String cardNumber, final RepositoryCallback callback) {
+    public void blockCard(String cardNumber, String reasonId, final RepositoryCallback callback) {
         /*
         Map<String, String> params = new HashMap<String, String>();
         params.put("numeroTarjeta", cardNumber);
         */
 
-        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(cardNumber);
+        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(cardNumber,reasonId);
         call.enqueue(new Callback<ServiceResponse<Object>>() {
             @Override
             public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
-                if(response.body() != null){
-                    if (response.body().isError()) {
-                        callback.onError(response.body().getMessage());
-                    } else {
-                        callback.onSuccess(response.body().getMessage());
+                if(response.isSuccessful()){
+                    if(response.body() != null){
+                        if (response.body().isError()) {
+                            callback.onError(response.body().getMessage());
+                        } else {
+                            callback.onSuccess(response.body().getMessage());
+                        }
+                    }else{
+                        callback.onError("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente.");
                     }
                 }else{
-                    callback.onSuccess("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente");
+                    callback.onError("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente.");
                 }
             }
 

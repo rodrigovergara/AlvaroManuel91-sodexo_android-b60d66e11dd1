@@ -43,11 +43,4 @@ public class ReplaceCardInteractorImplement implements ReplaceCardInteractor {
             intranetRepository.getCardDetail(data.getDni(), cardEntity.getCardNumber(), getCardDetailInterface);
         }
     }
-
-    @Override
-    public void getBlockingReasons(GetBlockingReasonsInterface callback) {
-        if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null) != null) {
-            intranetRepository.getBlockingReasons(callback);
-        }
-    }
 }

@@ -20,8 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sodexo.pe.com.sodexo.R;
+import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardDetailEntity;
 import sodexo.pe.com.sodexo.domain.entity.CardEntity;
+import sodexo.pe.com.sodexo.presentation.adapter.BlockingReasonAdapter;
 import sodexo.pe.com.sodexo.presentation.adapter.NumberCardAdapter;
 import sodexo.pe.com.sodexo.presentation.dialog.ProgressCustomDialog;
 import sodexo.pe.com.sodexo.presentation.interfaces.BlockCardView;
@@ -36,7 +38,11 @@ import sodexo.pe.com.sodexo.util.AlertUtil;
 public class BlockCardFragment extends Fragment implements BlockCardView {
 
     @BindView(R.id.sp_cards)
-    Spinner spinner;
+    Spinner spCards;
+
+    @BindView(R.id.sp_reasons)
+    Spinner spReasons;
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
     /*
@@ -56,6 +62,7 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     Button btnBlockCard;
 
     private String cardNumber;
+    private String reasonId;
 
     private ViewCreditPresenter presenter;
     private BlockCardPresenter blockCardPresenter;
@@ -63,7 +70,7 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     private MainView mainView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_block_card, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -93,10 +100,12 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
 
     @OnClick(R.id.btn_block_card)
     public void blockCard() {
-        if(cardNumber == null)
-            AlertUtil.showAlertDialog(getContext(),"Por favor, seleccione una tarjeta.");
+        if (cardNumber == null)
+            AlertUtil.showAlertDialog(getContext(), "Por favor, seleccione una tarjeta.");
+        else if (reasonId == null)
+            AlertUtil.showAlertDialog(getContext(), "Por favor, seleccione un motivo.");
         else
-            blockCardPresenter.blockCard(cardNumber);
+            blockCardPresenter.blockCard(cardNumber, reasonId);
     }
 
     @Override
@@ -119,18 +128,19 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     }
 
     @Override
-    public void populateSpinner(final List<CardEntity> list) {
+    public void populateReplacementCards(final List<CardEntity> list) {
+        blockCardPresenter.getBlockingReasons();
         NumberCardAdapter numberCardAdapter = new NumberCardAdapter(getContext());
         numberCardAdapter.addCards(list);
-        spinner.setAdapter(numberCardAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spCards.setAdapter(numberCardAdapter);
+        spCards.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                   if (i != 0) {
                                                       tvCardNumber.setText(list.get(i - 1).getCardCode());
                                                       presenter.getCardDetail(list.get(i - 1));
                                                       cardNumber = list.get(i - 1).getCardNumber();
-                                                  }else{
+                                                  } else {
                                                       cardNumber = null;
                                                   }
 
@@ -145,10 +155,33 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     }
 
     @Override
+    public void populateReasonsSpinner(final List<BlockingReasonEntity> list) {
+        BlockingReasonAdapter blockingReasonAdapter = new BlockingReasonAdapter(list, getContext());
+        spReasons.setAdapter(blockingReasonAdapter);
+        spReasons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    btnBlockCard.setEnabled(false);
+                    reasonId = null;
+                }else{
+                    btnBlockCard.setEnabled(true);
+                    reasonId = list.get(position-1).getId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                btnBlockCard.setEnabled(false);
+                reasonId = null;
+            }
+        });
+    }
+
+    @Override
     public void showCardDetail(CardDetailEntity cardDetail) {
         llCardDetail.setVisibility(View.VISIBLE);
         //tvDate.setText(cardDetail.getDate());
-        btnBlockCard.setEnabled(true);
         tvCredit.setText(cardDetail.getTotal());
         tvService.setText(cardDetail.getMessage());
 
@@ -157,6 +190,6 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     @Override
     public void onBlockCardSuccess(String message) {
         //"Su tarjeta ha sido bloqueada satisfactoriamente"
-        AlertUtil.showAlertDialog(getContext(),message);
+        AlertUtil.showAlertDialog(getContext(), message);
     }
 }

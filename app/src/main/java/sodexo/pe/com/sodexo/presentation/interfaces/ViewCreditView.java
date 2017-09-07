@@ -11,7 +11,7 @@ import sodexo.pe.com.sodexo.domain.entity.CardEntity;
 
 public interface ViewCreditView extends BaseParentView{
 
-    void populateSpinner(List<CardEntity> list);
+    void populateReplacementCards(List<CardEntity> list);
 
     void showCardDetail(CardDetailEntity cardDetail);
 }

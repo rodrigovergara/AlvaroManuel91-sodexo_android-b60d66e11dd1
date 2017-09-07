@@ -41,7 +41,7 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
             Retrofit restAdapter = new Retrofit.Builder()
-                    .baseUrl("http://201.234.48.227:8080/ws/sodexo/")//http://201.234.48.227:8080/ws/sodexo/
+                    .baseUrl("http://201.234.48.227:8080/ws_alexis/sodexo/")//http://201.234.48.227:8080/ws/sodexo/
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();

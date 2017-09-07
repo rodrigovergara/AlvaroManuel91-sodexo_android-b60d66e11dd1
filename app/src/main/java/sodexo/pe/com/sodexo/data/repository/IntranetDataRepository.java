@@ -346,9 +346,9 @@ public class IntranetDataRepository implements IntranetRepository {
     }
 
     @Override
-    public void blockCard(String cardNumber, final BaseParentInterface callback) {
+    public void blockCard(String cardNumber, String reasonId, final BaseParentInterface callback) {
         IntranetDataStore dataStore = new RestIntranetDataStore();
-        dataStore.blockCard(cardNumber, new RepositoryCallback() {
+        dataStore.blockCard(cardNumber, reasonId, new RepositoryCallback() {
             @Override
             public void onError(Object object) {
                 callback.onError(String.valueOf(object));

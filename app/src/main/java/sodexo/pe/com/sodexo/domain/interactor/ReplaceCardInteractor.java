@@ -13,8 +13,6 @@ public interface ReplaceCardInteractor {
 
     void getReplacementCardNumbers(GetCardsInterface callback);
 
-    void getBlockingReasons(GetBlockingReasonsInterface callback);
-
     void getCardDetail(CardEntity cardEntity, GetCardDetailInterface getCardDetailInterface);
 
 }
