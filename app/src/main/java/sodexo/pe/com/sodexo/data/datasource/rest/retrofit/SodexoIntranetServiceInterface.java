@@ -18,6 +18,7 @@ import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.LoginEntityData;
 import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
 import sodexo.pe.com.sodexo.data.model.ServiceResponse;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 
 /**
@@ -88,4 +89,8 @@ public interface SodexoIntranetServiceInterface {
     @GET("get/MotivoBloq/")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<List<BlockingReasonEntityData>>getBlockingReasons();
+
+    @GET("get/DireccionEnvio/{cardNumber}/{deliveryId}")
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<ServiceResponse<List<ShippingAddressData>>>getShippingAddress(@Path("cardNumber") String cardNumber, @Path("deliveryId") String deliveryId);
 }

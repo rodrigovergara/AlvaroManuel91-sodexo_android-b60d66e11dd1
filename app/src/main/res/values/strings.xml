@@ -23,6 +23,7 @@
     <string name="btn_block_card">Bloquear Tarjeta</string>
     <string name="replace_card_text">Reposición de Tarjeta</string>
     <string name="btn_replace_card">Gestionar Reposición</string>
+    <string name="delivery_information_text">Información de Pago</string>
     <string name="payment_information_text">Información de Pago</string>
 
     <string name="last_movements_text">Últimos Movimiepayment_information_textntos</string>
@@ -51,11 +52,20 @@
     <string name="contact_name">Nombre de contacto :</string>
     <string name="phone_number">Teléfono:</string>
     <string name="btn_next">Siguiente</string>
-    <string name="region">Región:</string>
+    <string name="department">Departamento:</string>
     <string name="province">Provincia:</string>
     <string name="district">Distrito:</string>
     <string name="replacement_cost">Costo de reposición:</string>
     <string name="shipping_cost">Costo de envio:</string>
     <string name="btn_request_replacement">Solicitar Reposición</string>
     <string name="reason_text">Motivo :</string>
+
+    <string name="department_required">Departamento (*)</string>
+    <string name="province_required">Provincia (*)</string>
+    <string name="district_required">Distrito (*)</string>
+
+    <string name="contact_name_required">Nombre de contacto (*)</string>
+    <string name="phone_number_required">Teléfono (*)</string>
+    <string name="address_label_required">Dirección (*) </string>
+
 </resources>

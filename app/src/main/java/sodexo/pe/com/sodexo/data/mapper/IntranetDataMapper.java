@@ -12,6 +12,7 @@ import sodexo.pe.com.sodexo.data.model.CellInfoEntityData;
 import sodexo.pe.com.sodexo.data.model.IntranetOptionEntityData;
 import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
@@ -22,6 +23,7 @@ import sodexo.pe.com.sodexo.domain.entity.CellInfoEntity;
 import sodexo.pe.com.sodexo.domain.entity.MovementEntity;
 import sodexo.pe.com.sodexo.domain.entity.OptionIntranetEntity;
 import sodexo.pe.com.sodexo.domain.entity.QuizEntity;
+import sodexo.pe.com.sodexo.domain.entity.ShippingAddressEntity;
 import sodexo.pe.com.sodexo.domain.entity.UserEntity;
 
 /**
@@ -148,8 +150,16 @@ public class IntranetDataMapper {
     public List<BlockingReasonEntity> trasnformToBlockingReasonsEntity(List<BlockingReasonEntityData> object) {
         List<BlockingReasonEntity> blockingReasonEntities = new ArrayList<>();
         for (BlockingReasonEntityData blockingReasonEntityData : object) {
-            blockingReasonEntities.add(new BlockingReasonEntity(blockingReasonEntityData.getId(),blockingReasonEntityData.getDescription()));
+            blockingReasonEntities.add(new BlockingReasonEntity(blockingReasonEntityData.getId(), blockingReasonEntityData.getDescription()));
         }
         return blockingReasonEntities;
+    }
+
+    public List<ShippingAddressEntity> trasnformToShippingAddressEntity(List<ShippingAddressData> object) {
+        List<ShippingAddressEntity> shippingAddressEntities = new ArrayList<>();
+        for (ShippingAddressData shippingAddressData : object) {
+            shippingAddressEntities.add(new ShippingAddressEntity(shippingAddressData.getAddress(), shippingAddressData.getDepartment(), shippingAddressData.getDepartmentId(), shippingAddressData.getProvince(), shippingAddressData.getProvinceId(), shippingAddressData.getDistrict(), shippingAddressData.getDistrictId()));
+        }
+        return shippingAddressEntities;
     }
 }

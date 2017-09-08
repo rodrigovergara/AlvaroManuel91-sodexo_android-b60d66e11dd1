@@ -11,7 +11,7 @@ public class ServiceResponse<T> {
     private boolean isError;
     @SerializedName("mensaje")
     private String message;
-    @SerializedName("data")
+    @SerializedName(value="data", alternate={"consulta"})
     private T data;
 
     public boolean isError() {

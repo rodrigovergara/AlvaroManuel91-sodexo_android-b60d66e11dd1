@@ -53,7 +53,7 @@ import sodexo.pe.com.sodexo.presentation.SodexoApplication;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlockCardFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogDetailFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogListFragment;
-import sodexo.pe.com.sodexo.presentation.fragment.intranet.PaymentInformationFragment;
+import sodexo.pe.com.sodexo.presentation.fragment.intranet.DeliveryInformationFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PaymentInformationSummaryFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PromoCommerceFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.QuizDetailFragment;
@@ -645,13 +645,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void openPaymentInformation() {
+    public void openDeliveryInformation(String cardNumber) {
+        Bundle bundle = new Bundle();
+        bundle.putString(DeliveryInformationFragment.CARD_NUMBER, cardNumber);
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        Fragment fragment = Fragment.instantiate(this, PaymentInformationFragment.class.getName());
+        Fragment fragment = Fragment.instantiate(this, DeliveryInformationFragment.class.getName(),bundle);
 
-        ft.add(R.id.fl_container, fragment);
+        ft.replace(R.id.fl_container, fragment);
         ft.addToBackStack(fragment.getClass().getName());
         ft.commitAllowingStateLoss();
         tempFragment = fragment;

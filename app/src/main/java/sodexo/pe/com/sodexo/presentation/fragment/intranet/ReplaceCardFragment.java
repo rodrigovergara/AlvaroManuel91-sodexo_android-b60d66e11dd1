@@ -197,7 +197,7 @@ public class ReplaceCardFragment extends Fragment implements ReplaceCardView {
         AlertUtil.showMessageAccept(getContext(), "", message, "Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mainView.openPaymentInformation();
+                mainView.openDeliveryInformation(cardNumber);
             }
         });
     }

@@ -76,7 +76,7 @@ public interface MainView {
 
     void openReplaceCard();
 
-    void openPaymentInformation();
+    void openDeliveryInformation(String cardNumber);
 
     void openPaymentInformationSummary();
 }

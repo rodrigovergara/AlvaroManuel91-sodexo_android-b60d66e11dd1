@@ -30,6 +30,7 @@ import sodexo.pe.com.sodexo.data.model.QuizDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
 import sodexo.pe.com.sodexo.data.model.ServiceResponse;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 import sodexo.pe.com.sodexo.data.model.ValidatedQuizResponse;
 import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
@@ -575,6 +576,25 @@ public class RestIntranetDataStore implements IntranetDataStore {
         });
     }
 
+    @Override
+    public void getShippingAddress(String cardNumber, String deliveryId, final RepositoryCallback repositoryCallback) {
+        Call<ServiceResponse<List<ShippingAddressData>>> call = ApiClient.getSodexoIntranetApiClient().getShippingAddress(cardNumber,deliveryId);
+        call.enqueue(new Callback<ServiceResponse<List<ShippingAddressData>>>() {
+            @Override
+            public void onResponse(Call<ServiceResponse<List<ShippingAddressData>>> call, Response<ServiceResponse<List<ShippingAddressData>>> response) {
+                if (response.isSuccessful()) {
+                    repositoryCallback.onSuccess(response.body().getData());
+                } else {
+                    repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServiceResponse<List<ShippingAddressData>>> call, Throwable t) {
+                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+            }
+        });
+    }
 
     @Override
     public void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback) {

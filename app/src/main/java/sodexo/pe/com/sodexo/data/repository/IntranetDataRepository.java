@@ -21,7 +21,9 @@ import sodexo.pe.com.sodexo.data.model.LoginEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
+import sodexo.pe.com.sodexo.domain.entity.ShippingAddressEntity;
 import sodexo.pe.com.sodexo.domain.repository.IntranetRepository;
 import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
 import sodexo.pe.com.sodexo.presentation.SodexoApplication;
@@ -37,6 +39,7 @@ import sodexo.pe.com.sodexo.presentation.model.GetCardsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetIntranetOptionInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetQuestionsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetQuizListInterface;
+import sodexo.pe.com.sodexo.presentation.model.GetShippingAddressInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetUserInfoInterface;
 import sodexo.pe.com.sodexo.presentation.model.LoginInterface;
 import sodexo.pe.com.sodexo.presentation.model.RegisterInterface;
@@ -389,6 +392,22 @@ public class IntranetDataRepository implements IntranetRepository {
             @Override
             public void onSuccess(Object object) {
                 callback.onGetBlockingReasonsSuccess(dataMapper.trasnformToBlockingReasonsEntity((List<BlockingReasonEntityData>)object));
+            }
+        });
+    }
+
+    @Override
+    public void getShippingAddress(String cardNumber, String deliveryId,final GetShippingAddressInterface callback) {
+        IntranetDataStore intranetDataStore = new RestIntranetDataStore();
+        intranetDataStore.getShippingAddress(cardNumber, deliveryId, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onSuccess(dataMapper.trasnformToShippingAddressEntity((List<ShippingAddressData>)object));
             }
         });
     }

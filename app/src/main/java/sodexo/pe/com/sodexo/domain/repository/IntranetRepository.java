@@ -15,6 +15,7 @@ import sodexo.pe.com.sodexo.presentation.model.GetCardsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetIntranetOptionInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetQuestionsInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetQuizListInterface;
+import sodexo.pe.com.sodexo.presentation.model.GetShippingAddressInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetUserInfoInterface;
 import sodexo.pe.com.sodexo.presentation.model.LoginInterface;
 import sodexo.pe.com.sodexo.presentation.model.RegisterInterface;
@@ -68,4 +69,6 @@ public interface IntranetRepository {
     void getReplacementCardNumbers(String dni, GetCardsInterface callback);
 
     void getBlockingReasons(GetBlockingReasonsInterface callback);
+
+    void getShippingAddress(String cardNumber, String deliveryId, GetShippingAddressInterface callback);
 }

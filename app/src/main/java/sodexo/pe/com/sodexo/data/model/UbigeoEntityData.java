@@ -85,4 +85,14 @@ public class UbigeoEntityData implements Parcelable {
             return new UbigeoEntityData[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "UbigeoEntityData{" +
+                "department='" + department + '\'' +
+                ", province='" + province + '\'' +
+                ", district='" + district + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

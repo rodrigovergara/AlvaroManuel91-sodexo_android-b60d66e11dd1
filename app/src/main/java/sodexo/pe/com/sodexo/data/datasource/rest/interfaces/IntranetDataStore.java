@@ -50,7 +50,9 @@ public interface IntranetDataStore {
 
     void blockCard(String cardNumber,String reasonId, RepositoryCallback callback);
 
-    void getReplacementCardNumbers(String dni, final RepositoryCallback repositoryCallback);
+    void getReplacementCardNumbers(String dni, RepositoryCallback repositoryCallback);
 
-    void getBlockingReasons(final RepositoryCallback repositoryCallback);
+    void getBlockingReasons(RepositoryCallback repositoryCallback);
+
+    void getShippingAddress(String cardNumber, String deliveryId,RepositoryCallback repositoryCallback);
 }
