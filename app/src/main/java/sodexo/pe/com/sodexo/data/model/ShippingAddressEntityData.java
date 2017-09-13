@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by asahel on 9/7/17.
  */
 
-public class ShippingAddressData {
+public class ShippingAddressEntityData {
 
     @SerializedName("DIRECCION")
     private String address;
@@ -87,7 +87,7 @@ public class ShippingAddressData {
 
     @Override
     public String toString() {
-        return "ShippingAddressData{" +
+        return "ShippingAddressEntityData{" +
                 "address='" + address + '\'' +
                 ", department='" + department + '\'' +
                 ", departmentId='" + departmentId + '\'' +

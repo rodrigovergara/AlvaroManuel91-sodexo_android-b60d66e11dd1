@@ -17,8 +17,9 @@ import sodexo.pe.com.sodexo.data.model.CellInfoEntityData;
 import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.LoginEntityData;
 import sodexo.pe.com.sodexo.data.model.BlockingReasonEntityData;
+import sodexo.pe.com.sodexo.data.model.ReplenishmentAmountEntityData;
 import sodexo.pe.com.sodexo.data.model.ServiceResponse;
-import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressEntityData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 
 /**
@@ -75,9 +76,6 @@ public interface SodexoIntranetServiceInterface {
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<ServiceResponse<Object>> updateCellInfo(@FieldMap Map<String, String> params);
 
-    @POST("post/ReposicionesNuevo")
-    Call<ServiceResponse<Object>> replaceCard(@FieldMap Map<String, String> params);
-
     @GET("get/BloqueoTarjeta/{cardNumber}/{reasonId}")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<ServiceResponse<Object>> blockCard(/*@FieldMap Map<String, String> params*/@Path("cardNumber") String cardNumber,@Path("reasonId") String reasonId);
@@ -92,5 +90,14 @@ public interface SodexoIntranetServiceInterface {
 
     @GET("get/DireccionEnvio/{cardNumber}/{deliveryId}")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
-    Call<ServiceResponse<List<ShippingAddressData>>>getShippingAddress(@Path("cardNumber") String cardNumber, @Path("deliveryId") String deliveryId);
+    Call<ServiceResponse<List<ShippingAddressEntityData>>>getShippingAddress(@Path("cardNumber") String cardNumber, @Path("deliveryId") String deliveryId);
+
+    @GET("get/MontoRepo/{cardNumber}/{ubigeo}")
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<ServiceResponse<List<ReplenishmentAmountEntityData>>>getReplenishmentAmount(@Path("cardNumber") String cardNumber, @Path("ubigeo") String ubigeo);
+
+    @POST("post/ReposicionesNuevo")
+    @FormUrlEncoded
+    @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
+    Call<ServiceResponse<Object>> replaceCard(@FieldMap Map<String, String> params);
 }

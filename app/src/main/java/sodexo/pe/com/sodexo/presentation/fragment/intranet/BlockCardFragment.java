@@ -191,5 +191,6 @@ public class BlockCardFragment extends Fragment implements BlockCardView {
     public void onBlockCardSuccess(String message) {
         //"Su tarjeta ha sido bloqueada satisfactoriamente"
         AlertUtil.showAlertDialog(getContext(), message);
+        mainView.openIntranetOption();
     }
 }

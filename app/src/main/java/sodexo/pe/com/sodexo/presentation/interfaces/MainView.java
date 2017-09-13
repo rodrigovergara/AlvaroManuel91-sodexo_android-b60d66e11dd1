@@ -7,6 +7,7 @@ import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
 import sodexo.pe.com.sodexo.domain.entity.CommerceEntity;
 import sodexo.pe.com.sodexo.domain.entity.PromoEntity;
 import sodexo.pe.com.sodexo.domain.entity.QuizEntity;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PromoCommerceFragment;
 
 /**
@@ -78,5 +79,5 @@ public interface MainView {
 
     void openDeliveryInformation(String cardNumber);
 
-    void openPaymentInformationSummary();
+    void openPaymentInformationSummary(ReplacementCardEntity replacementCardEntity);
 }

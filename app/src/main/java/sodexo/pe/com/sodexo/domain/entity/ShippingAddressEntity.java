@@ -90,7 +90,7 @@ public class ShippingAddressEntity {
 
     @Override
     public String toString() {
-        return "ShippingAddressData{" +
+        return "ShippingAddressEntityData{" +
                 "address='" + address + '\'' +
                 ", department='" + department + '\'' +
                 ", departmentId='" + departmentId + '\'' +

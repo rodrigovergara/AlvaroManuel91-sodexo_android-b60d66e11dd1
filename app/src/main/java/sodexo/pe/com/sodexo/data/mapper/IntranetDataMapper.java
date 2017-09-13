@@ -12,7 +12,8 @@ import sodexo.pe.com.sodexo.data.model.CellInfoEntityData;
 import sodexo.pe.com.sodexo.data.model.IntranetOptionEntityData;
 import sodexo.pe.com.sodexo.data.model.LastMovementsResponse;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
-import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
+import sodexo.pe.com.sodexo.data.model.ReplenishmentAmountEntityData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressEntityData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 import sodexo.pe.com.sodexo.domain.entity.BlockingReasonEntity;
 import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
@@ -23,6 +24,7 @@ import sodexo.pe.com.sodexo.domain.entity.CellInfoEntity;
 import sodexo.pe.com.sodexo.domain.entity.MovementEntity;
 import sodexo.pe.com.sodexo.domain.entity.OptionIntranetEntity;
 import sodexo.pe.com.sodexo.domain.entity.QuizEntity;
+import sodexo.pe.com.sodexo.domain.entity.ReplenishmentAmountEntity;
 import sodexo.pe.com.sodexo.domain.entity.ShippingAddressEntity;
 import sodexo.pe.com.sodexo.domain.entity.UserEntity;
 
@@ -155,11 +157,19 @@ public class IntranetDataMapper {
         return blockingReasonEntities;
     }
 
-    public List<ShippingAddressEntity> trasnformToShippingAddressEntity(List<ShippingAddressData> object) {
+    public List<ShippingAddressEntity> trasnformToShippingAddressEntity(List<ShippingAddressEntityData> object) {
         List<ShippingAddressEntity> shippingAddressEntities = new ArrayList<>();
-        for (ShippingAddressData shippingAddressData : object) {
-            shippingAddressEntities.add(new ShippingAddressEntity(shippingAddressData.getAddress(), shippingAddressData.getDepartment(), shippingAddressData.getDepartmentId(), shippingAddressData.getProvince(), shippingAddressData.getProvinceId(), shippingAddressData.getDistrict(), shippingAddressData.getDistrictId()));
+        for (ShippingAddressEntityData shippingAddressEntityData : object) {
+            shippingAddressEntities.add(new ShippingAddressEntity(shippingAddressEntityData.getAddress(), shippingAddressEntityData.getDepartment(), shippingAddressEntityData.getDepartmentId(), shippingAddressEntityData.getProvince(), shippingAddressEntityData.getProvinceId(), shippingAddressEntityData.getDistrict(), shippingAddressEntityData.getDistrictId()));
         }
         return shippingAddressEntities;
+    }
+
+    public List<ReplenishmentAmountEntity> trasnformToReplenishmentAmountEntity(List<ReplenishmentAmountEntityData> object) {
+        List<ReplenishmentAmountEntity> replenishmentAmountEntities = new ArrayList<>();
+        for (ReplenishmentAmountEntityData replenishmentAmountEntityData : object) {
+            replenishmentAmountEntities.add(new ReplenishmentAmountEntity(replenishmentAmountEntityData.getAmount()));
+        }
+        return replenishmentAmountEntities;
     }
 }

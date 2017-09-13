@@ -24,6 +24,7 @@ import butterknife.OnClick;
 import sodexo.pe.com.sodexo.R;
 import sodexo.pe.com.sodexo.data.datasource.assets.UbigeoDataStore;
 import sodexo.pe.com.sodexo.data.model.UbigeoEntityData;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.domain.entity.ShippingAddressEntity;
 import sodexo.pe.com.sodexo.domain.entity.StringWithTag;
 import sodexo.pe.com.sodexo.presentation.adapter.SimpleObjectAdapter;
@@ -185,8 +186,19 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
     public void next() {
         if(spDeliveryPlace.getSelectedItemPosition() == 0)
             showError("Por favor seleccione un lugar de entrega.");
-        else if(!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString()))
-            mainView.openPaymentInformationSummary();
+        else if(!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString())){
+            ReplacementCardEntity replacementCardEntity = new ReplacementCardEntity();
+            replacementCardEntity.setAddress1(etAddress.getText().toString());
+            replacementCardEntity.setCardNumber(cardNumber);
+            replacementCardEntity.setContactName(etContactName.getText().toString());
+            replacementCardEntity.setDeliveryPlace(spDeliveryPlace.getSelectedItemPosition() + "");
+            replacementCardEntity.setDepartmentId(ubigeoData.getDepartment());
+            replacementCardEntity.setProvinceId(ubigeoData.getProvince());
+            replacementCardEntity.setDistrictId(ubigeoData.getDistrict());
+            replacementCardEntity.setPhoneNumber(etPhoneNumber.getText().toString());
+
+            mainView.openPaymentInformationSummary(replacementCardEntity);
+        }
         else
             showError("Por favor complete los campos obligatorios");
     }

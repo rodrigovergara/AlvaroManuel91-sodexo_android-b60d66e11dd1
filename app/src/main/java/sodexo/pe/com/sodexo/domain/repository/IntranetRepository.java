@@ -3,8 +3,10 @@ package sodexo.pe.com.sodexo.domain.repository;
 import java.util.List;
 
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetAllMovements;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
+import sodexo.pe.com.sodexo.presentation.interfaces.GetReplenishmentAmount;
 import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
@@ -71,4 +73,8 @@ public interface IntranetRepository {
     void getBlockingReasons(GetBlockingReasonsInterface callback);
 
     void getShippingAddress(String cardNumber, String deliveryId, GetShippingAddressInterface callback);
+
+    void replaceCard(ReplacementCardEntity replacementCardEntity, BaseParentInterface callback);
+
+    void getReplenishmentAmount(String cardNumber, String ubigeo, GetReplenishmentAmount getReplenishmentAmount);
 }

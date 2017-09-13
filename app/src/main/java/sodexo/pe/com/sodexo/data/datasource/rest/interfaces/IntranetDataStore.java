@@ -3,6 +3,7 @@ package sodexo.pe.com.sodexo.data.datasource.rest.interfaces;
 import java.util.List;
 
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
 
 /**
@@ -46,13 +47,15 @@ public interface IntranetDataStore {
 
     void sendReponseQuiz(String dni, int quizId, List<QuizResponseEntityData> list, RepositoryCallback callback);
 
-    void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback);
-
     void blockCard(String cardNumber,String reasonId, RepositoryCallback callback);
 
-    void getReplacementCardNumbers(String dni, RepositoryCallback repositoryCallback);
+    void getReplacementCardNumbers(String dni, RepositoryCallback callback);
 
-    void getBlockingReasons(RepositoryCallback repositoryCallback);
+    void getBlockingReasons(RepositoryCallback callback);
 
-    void getShippingAddress(String cardNumber, String deliveryId,RepositoryCallback repositoryCallback);
+    void getShippingAddress(String cardNumber, String deliveryId,RepositoryCallback callback);
+
+    void getReplenishmentAmount(String cardNumber, String ubigeo, RepositoryCallback callback);
+
+    void replaceCard(ReplacementCardEntity replacementCardEntity, RepositoryCallback callback);
 }

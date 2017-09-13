@@ -49,6 +49,7 @@ import sodexo.pe.com.sodexo.domain.entity.BlogEntity;
 import sodexo.pe.com.sodexo.domain.entity.CommerceEntity;
 import sodexo.pe.com.sodexo.domain.entity.PromoEntity;
 import sodexo.pe.com.sodexo.domain.entity.QuizEntity;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.presentation.SodexoApplication;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlockCardFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogDetailFragment;
@@ -661,13 +662,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void openPaymentInformationSummary() {
+    public void openPaymentInformationSummary(ReplacementCardEntity replacementCardEntity) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(PaymentInformationSummaryFragment.REPLACEMENT_CARD, replacementCardEntity);
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        Fragment fragment = Fragment.instantiate(this, PaymentInformationSummaryFragment.class.getName());
+        Fragment fragment = Fragment.instantiate(this, PaymentInformationSummaryFragment.class.getName(),bundle);
 
-        ft.add(R.id.fl_container, fragment);
+        ft.replace(R.id.fl_container, fragment);
         ft.addToBackStack(fragment.getClass().getName());
         ft.commitAllowingStateLoss();
         tempFragment = fragment;

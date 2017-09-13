@@ -1,13 +1,7 @@
 package sodexo.pe.com.sodexo.data.datasource.rest;
 
-import android.util.ArrayMap;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +23,12 @@ import sodexo.pe.com.sodexo.data.model.LoginEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
+import sodexo.pe.com.sodexo.data.model.ReplenishmentAmountEntityData;
 import sodexo.pe.com.sodexo.data.model.ServiceResponse;
-import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressEntityData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
 import sodexo.pe.com.sodexo.data.model.ValidatedQuizResponse;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
 
 /**
@@ -578,26 +574,74 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
     @Override
     public void getShippingAddress(String cardNumber, String deliveryId, final RepositoryCallback repositoryCallback) {
-        Call<ServiceResponse<List<ShippingAddressData>>> call = ApiClient.getSodexoIntranetApiClient().getShippingAddress(cardNumber,deliveryId);
-        call.enqueue(new Callback<ServiceResponse<List<ShippingAddressData>>>() {
+        Call<ServiceResponse<List<ShippingAddressEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getShippingAddress(cardNumber,deliveryId);
+        call.enqueue(new Callback<ServiceResponse<List<ShippingAddressEntityData>>>() {
             @Override
-            public void onResponse(Call<ServiceResponse<List<ShippingAddressData>>> call, Response<ServiceResponse<List<ShippingAddressData>>> response) {
+            public void onResponse(Call<ServiceResponse<List<ShippingAddressEntityData>>> call, Response<ServiceResponse<List<ShippingAddressEntityData>>> response) {
                 if (response.isSuccessful()) {
                     repositoryCallback.onSuccess(response.body().getData());
                 } else {
-                    repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                    repositoryCallback.onError("Ocurrió un error al momento de realizar su transacción. Inténtelo nuevamente");
                 }
             }
 
             @Override
-            public void onFailure(Call<ServiceResponse<List<ShippingAddressData>>> call, Throwable t) {
+            public void onFailure(Call<ServiceResponse<List<ShippingAddressEntityData>>> call, Throwable t) {
                 repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
             }
         });
     }
 
     @Override
-    public void replaceCard(String LugarEntrega, String Direccion1, String NomContacto, String Telefono, String Region, String Provincia, String Distrito, String Direccion2, String NroTarjeta, RepositoryCallback callback) {
+    public void getReplenishmentAmount(String cardNumber, String ubigeo, final RepositoryCallback repositoryCallback) {
+        Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getReplenishmentAmount(cardNumber,ubigeo);
+        call.enqueue(new Callback<ServiceResponse<List<ReplenishmentAmountEntityData>>>() {
+            @Override
+            public void onResponse(Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call, Response<ServiceResponse<List<ReplenishmentAmountEntityData>>> response) {
+                if (response.isSuccessful()) {
+                    repositoryCallback.onSuccess(response.body().getData());
+                } else {
+                    repositoryCallback.onError("Ocurrió un error al momento de realizar su transacción. Inténtelo nuevamente");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call, Throwable t) {
+                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+            }
+        });
+    }
+
+    @Override
+    public void replaceCard(ReplacementCardEntity replacementCardEntity, final RepositoryCallback repositoryCallback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("LugarEntrega", replacementCardEntity.getDeliveryPlace());
+        params.put("Direccion1", replacementCardEntity.getAddress1());
+        params.put("Direccion2", replacementCardEntity.getAddress1());
+        params.put("NomContacto", replacementCardEntity.getContactName());
+        params.put("Telefono", replacementCardEntity.getPhoneNumber());
+        params.put("Region", replacementCardEntity.getDepartmentId());
+        params.put("Provincia", replacementCardEntity.getProvinceId());
+        params.put("Distrito", replacementCardEntity.getDistrictId());
+        params.put("NroTarjeta", replacementCardEntity.getCardNumber());
+
+        Log.wtf("ReplaceCard!!",params.toString());
+        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().replaceCard(params);
+        call.enqueue(new Callback<ServiceResponse<Object>>() {
+            @Override
+            public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
+                if (response.body().isError()) {
+                    repositoryCallback.onError(response.body().getMessage());
+                } else {
+                    repositoryCallback.onSuccess(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServiceResponse<Object>> call, Throwable t) {
+                repositoryCallback.onError("Ocurrió un error al momento de realizar su transacción. Inténtelo nuevamente");
+                t.printStackTrace();
+            }
+        });
     }
 }

@@ -21,14 +21,16 @@ import sodexo.pe.com.sodexo.data.model.LoginEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizDetailEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizEntityData;
 import sodexo.pe.com.sodexo.data.model.QuizResponseEntityData;
-import sodexo.pe.com.sodexo.data.model.ShippingAddressData;
+import sodexo.pe.com.sodexo.data.model.ReplenishmentAmountEntityData;
+import sodexo.pe.com.sodexo.data.model.ShippingAddressEntityData;
 import sodexo.pe.com.sodexo.data.model.UserEntityData;
-import sodexo.pe.com.sodexo.domain.entity.ShippingAddressEntity;
+import sodexo.pe.com.sodexo.domain.entity.ReplacementCardEntity;
 import sodexo.pe.com.sodexo.domain.repository.IntranetRepository;
 import sodexo.pe.com.sodexo.domain.repository.RepositoryCallback;
 import sodexo.pe.com.sodexo.presentation.SodexoApplication;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetAllMovements;
 import sodexo.pe.com.sodexo.presentation.interfaces.GetCellInfoInterface;
+import sodexo.pe.com.sodexo.presentation.interfaces.GetReplenishmentAmount;
 import sodexo.pe.com.sodexo.presentation.model.BaseParentInterface;
 import sodexo.pe.com.sodexo.presentation.model.ChangePasswordInterface;
 import sodexo.pe.com.sodexo.presentation.model.GetAllTypeCards;
@@ -407,7 +409,39 @@ public class IntranetDataRepository implements IntranetRepository {
 
             @Override
             public void onSuccess(Object object) {
-                callback.onSuccess(dataMapper.trasnformToShippingAddressEntity((List<ShippingAddressData>)object));
+                callback.onSuccess(dataMapper.trasnformToShippingAddressEntity((List<ShippingAddressEntityData>)object));
+            }
+        });
+    }
+
+    @Override
+    public void getReplenishmentAmount(String cardNumber, String ubigeo, final GetReplenishmentAmount callback) {
+        IntranetDataStore intranetDataStore = new RestIntranetDataStore();
+        intranetDataStore.getReplenishmentAmount(cardNumber, ubigeo, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onSuccess(dataMapper.trasnformToReplenishmentAmountEntity((List<ReplenishmentAmountEntityData>)object));
+            }
+        });
+    }
+
+    @Override
+    public void replaceCard(ReplacementCardEntity replacementCardEntity,final BaseParentInterface callback) {
+        IntranetDataStore dataStore = new RestIntranetDataStore();
+        dataStore.replaceCard(replacementCardEntity, new RepositoryCallback() {
+            @Override
+            public void onError(Object object) {
+                callback.onError(String.valueOf(object));
+            }
+
+            @Override
+            public void onSuccess(Object object) {
+                callback.onSuccess(String.valueOf(object));
             }
         });
     }
