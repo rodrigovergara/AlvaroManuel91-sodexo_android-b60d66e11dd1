@@ -113,7 +113,7 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
     public void onResume() {
         super.onResume();
         populateDeliveryPlace();
-        populateDepartment();
+        populateDepartment(null,null,null);
     }
 
     @OnClick(R.id.iv_back)
@@ -150,32 +150,29 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
         itemList.add(new StringWithTag("3", "Sodexo"));
         itemList.add(new StringWithTag("4", "Otro"));
 
-        SimpleObjectAdapter deliveryPlaceAdapter = new SimpleObjectAdapter(getContext(),itemList);
+        SimpleObjectAdapter deliveryPlaceAdapter = new SimpleObjectAdapter(getContext(), itemList);
         spDeliveryPlace.setAdapter(deliveryPlaceAdapter);
         spDeliveryPlace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.wtf("EL POSITION "," -> " + position + " - " + id + " - " + cardNumber);
-                    switch (position) {
-                        case 1:
-                        case 3:
-                            StringWithTag object = itemList.get(position-1);
-                            Log.wtf("EL OBJECT : ", " -> " + object.toString());
-                            if(cardNumber != null)
-                                deliveryInformationPresenter.getShippingAddress(cardNumber,object.getString());
-                            break;
-                        default:
-                            spDepartment.setEnabled(true);
-                            spProvince.setEnabled(true);
-                            spDistrict.setEnabled(true);
-                            etAddress.setEnabled(true);
-                            spDepartment.setSelection(0);
-                            spProvince.setSelection(0);
-                            spDistrict.setSelection(0);
-                            etAddress.setText("");
+                Log.wtf("EL POSITION ", " -> " + position + " - " + id + " - " + cardNumber);
 
-                    }
-
+                if (position == 1 || position == 3) {
+                    StringWithTag object = itemList.get(position - 1);
+                    Log.wtf("EL OBJECT : ", " -> " + object.toString());
+                    if (cardNumber != null)
+                        deliveryInformationPresenter.getShippingAddress(cardNumber, object.getString());
+                } else {
+                    Log.wtf("EN EL DEFAULT: ", " -> ");
+                    spDepartment.setEnabled(true);
+                    spProvince.setEnabled(true);
+                    spDistrict.setEnabled(true);
+                    etAddress.setEnabled(true);
+                    spDepartment.setSelection(0);
+                    spProvince.setSelection(0);
+                    spDistrict.setSelection(0);
+                    etAddress.setText("");
+                }
             }
 
             @Override
@@ -187,10 +184,10 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
 
     @OnClick(R.id.btn_next)
     public void next() {
-        if(spDeliveryPlace.getSelectedItemPosition() == 0)
+        if (spDeliveryPlace.getSelectedItemPosition() == 0)
             showError("Por favor seleccione un lugar de entrega.");
-        else if(!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString())
-                && !TextUtils.isEmpty(etEmail.getText().toString())){
+        else if (!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString())
+                && !TextUtils.isEmpty(etEmail.getText().toString())) {
             ReplacementCardEntity replacementCardEntity = new ReplacementCardEntity();
             replacementCardEntity.setAddress1(etAddress.getText().toString());
             replacementCardEntity.setCardNumber(cardNumber);
@@ -203,19 +200,20 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
             replacementCardEntity.setEmail(etEmail.getText().toString());
 
             mainView.openPaymentInformationSummary(replacementCardEntity);
-        }
-        else
+        } else
             showError("Por favor complete los campos obligatorios");
     }
 
-    private void populateDepartment() {
+    private void populateDepartment(final String departmentId,final String provinceId,final String districtId) {
         UbigeoAdapter adapter = new UbigeoAdapter(getActivity());
-        adapter.addUbigeo(UbigeoDataStore.getAllDepartments());
+        adapter.setList(UbigeoDataStore.getAllDepartments());
         spDepartment.setAdapter(adapter);
+        if(departmentId!= null)
+            spDepartment.setSelection(((UbigeoAdapter) spDepartment.getAdapter()).getPosition(departmentId, "00", "00"));
         spDepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                populateProvince(UbigeoDataStore.getAllDepartments().get(i).getDepartment());
+                populateProvince(UbigeoDataStore.getAllDepartments().get(i).getDepartment(),provinceId,districtId);
             }
 
             @Override
@@ -225,14 +223,16 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
         });
     }
 
-    private void populateProvince(final String department) {
+    private void populateProvince(final String departmentId,String provinceId,final String districtId) {
         UbigeoAdapter adapter = new UbigeoAdapter(getActivity());
-        adapter.addUbigeo(UbigeoDataStore.getAllProvinces(department));
+        adapter.setList(UbigeoDataStore.getAllProvinces(departmentId));
         spProvince.setAdapter(adapter);
+        if(provinceId!=null)
+            spProvince.setSelection(((UbigeoAdapter) spProvince.getAdapter()).getPosition(departmentId, provinceId, "00"));
         spProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                populateDistrict(department, UbigeoDataStore.getAllProvinces(department).get(i).getProvince());
+                populateDistrict(departmentId, UbigeoDataStore.getAllProvinces(departmentId).get(i).getProvince(),districtId);
             }
 
             @Override
@@ -242,15 +242,17 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
         });
     }
 
-    private void populateDistrict(final String department, final String province) {
+    private void populateDistrict(final String departmentId, final String provinceId, String districtId) {
         UbigeoAdapter adapter = new UbigeoAdapter(getActivity());
-        adapter.addUbigeo(UbigeoDataStore.getAllDistricts(department, province));
+        adapter.setList(UbigeoDataStore.getAllDistricts(departmentId, provinceId));
         spDistrict.setAdapter(adapter);
+        if(districtId != null)
+            spDistrict.setSelection(((UbigeoAdapter) spDistrict.getAdapter()).getPosition(departmentId, provinceId, districtId));
+
         spDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ubigeoData = UbigeoDataStore.getAllDistricts(department, province).get(i);
-                Log.wtf("HOLLAA", "EL UBIGEODATA -> " + ubigeoData.toString());
+                ubigeoData = UbigeoDataStore.getAllDistricts(departmentId, provinceId).get(i);
             }
 
             @Override
@@ -262,11 +264,11 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
 
     @Override
     public void onGetShippingAddressResults(ShippingAddressEntity shippingAddressEntity) {
-        spDepartment.setSelection(((UbigeoAdapter) spDepartment.getAdapter()).getPosition(shippingAddressEntity.getDepartmentId(), "00", "00"));
-        if (spProvince.getAdapter() != null)
-            spProvince.setSelection(((UbigeoAdapter) spProvince.getAdapter()).getPosition(shippingAddressEntity.getDepartmentId(), shippingAddressEntity.getProvinceId(), "00"));
-        if (spDistrict.getAdapter() != null)
-            spDistrict.setSelection(((UbigeoAdapter) spDistrict.getAdapter()).getPosition(shippingAddressEntity.getDepartmentId(), shippingAddressEntity.getProvinceId(), shippingAddressEntity.getDistrictId()));
+        String departmentId = shippingAddressEntity.getDistrictId().substring(0, 2);
+        String provinceId = shippingAddressEntity.getDistrictId().substring(2, 4);
+        String districtId = shippingAddressEntity.getDistrictId().substring(4, 6);
+
+        populateDepartment(departmentId,provinceId,districtId);
 
         etAddress.setText(shippingAddressEntity.getAddress());
 

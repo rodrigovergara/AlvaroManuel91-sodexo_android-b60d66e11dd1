@@ -1,6 +1,7 @@
 package sodexo.pe.com.sodexo.presentation.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,10 @@ public class UbigeoAdapter extends BaseAdapter {
 
     public void addUbigeo(List<UbigeoEntityData> list) {
         this.list.addAll(list);
+    }
+
+    public void setList(List<UbigeoEntityData> list) {
+        this.list = list;
     }
 
     @Override

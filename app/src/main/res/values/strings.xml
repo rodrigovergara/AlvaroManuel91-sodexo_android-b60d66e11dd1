@@ -2,7 +2,7 @@
     <string name="app_name">Sodexo Club</string>
     <string name="intent_filter_broadcast">intent_filter_broadcast</string>
     <string name="veryfy_permissions">Se nececita los permisos para que la aplicación funcione</string>
-    <string name="key_map">AIzaSyArLHjSZBURA-R55Fotns39rukJ5uWp8yg</string>
+    <string name="key_map">AIzaSyBffBs7wJExutQIUpYagaOesQ578h8edCg</string>
     <string name="header_title_text">Menú</string>
     <string name="item_menu_comercio">Comercios</string>
     <string name="internet_conection">No cuenta con una conexión a internet</string>
