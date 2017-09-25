@@ -17,6 +17,7 @@ public class ReplacementCardEntity implements Parcelable {
     private String provinceId;
     private String districtId;
     private String cardNumber;
+    private String email;
 
     public String getDeliveryPlace() {
         return deliveryPlace;
@@ -90,6 +91,14 @@ public class ReplacementCardEntity implements Parcelable {
         this.cardNumber = cardNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public ReplacementCardEntity() {
     }
 
@@ -109,6 +118,7 @@ public class ReplacementCardEntity implements Parcelable {
         dest.writeString(this.provinceId);
         dest.writeString(this.districtId);
         dest.writeString(this.cardNumber);
+        dest.writeString(this.email);
     }
 
     protected ReplacementCardEntity(Parcel in) {
@@ -121,6 +131,7 @@ public class ReplacementCardEntity implements Parcelable {
         this.provinceId = in.readString();
         this.districtId= in.readString();
         this.cardNumber = in.readString();
+        this.email = in.readString();
     }
 
     public static final Creator<ReplacementCardEntity> CREATOR = new Creator<ReplacementCardEntity>() {

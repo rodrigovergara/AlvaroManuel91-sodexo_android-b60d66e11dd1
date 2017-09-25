@@ -66,6 +66,7 @@
 
     <string name="contact_name_required">Nombre de contacto (*)</string>
     <string name="phone_number_required">Teléfono (*)</string>
+    <string name="email_required">Email (*)</string>
     <string name="address_label_required">Dirección (*) </string>
 
 </resources>

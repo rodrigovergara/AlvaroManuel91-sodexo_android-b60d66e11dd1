@@ -68,6 +68,9 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
     @BindView(R.id.et_phone_number)
     EditText etPhoneNumber;
 
+    @BindView(R.id.et_email)
+    EditText etEmail;
+
     private DeliveryInformationPresenter deliveryInformationPresenter;
     private ProgressCustomDialog progressCustomDialog;
     private MainView mainView;
@@ -186,7 +189,8 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
     public void next() {
         if(spDeliveryPlace.getSelectedItemPosition() == 0)
             showError("Por favor seleccione un lugar de entrega.");
-        else if(!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString())){
+        else if(!TextUtils.isEmpty(etAddress.getText().toString()) && !TextUtils.isEmpty(etContactName.getText().toString()) && !TextUtils.isEmpty(etPhoneNumber.getText().toString())
+                && !TextUtils.isEmpty(etEmail.getText().toString())){
             ReplacementCardEntity replacementCardEntity = new ReplacementCardEntity();
             replacementCardEntity.setAddress1(etAddress.getText().toString());
             replacementCardEntity.setCardNumber(cardNumber);
@@ -196,6 +200,7 @@ public class DeliveryInformationFragment extends Fragment implements DeliveryInf
             replacementCardEntity.setProvinceId(ubigeoData.getProvince());
             replacementCardEntity.setDistrictId(ubigeoData.getDistrict());
             replacementCardEntity.setPhoneNumber(etPhoneNumber.getText().toString());
+            replacementCardEntity.setEmail(etEmail.getText().toString());
 
             mainView.openPaymentInformationSummary(replacementCardEntity);
         }

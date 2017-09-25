@@ -2,6 +2,11 @@ package sodexo.pe.com.sodexo.data.datasource.rest;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.Excluder;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,7 +197,7 @@ public class RestIntranetDataStore implements IntranetDataStore {
     @Override
     public void changePasswordCard(String dni, String cardNumber, String password, String newPassword, String repeatPassword, final RepositoryCallback repositoryCallback) {
         Map<String, String> params = new HashMap<String, String>();
-        Log.wtf("DATA->","->" + dni + " - " + cardNumber +" - " + password + " - " + newPassword + " - " + repeatPassword);
+        Log.wtf("DATA->", "->" + dni + " - " + cardNumber + " - " + password + " - " + newPassword + " - " + repeatPassword);
         params.put("dni", dni);
         params.put("tarjeta", cardNumber);
         params.put("ClaveActual", password);
@@ -251,7 +256,7 @@ public class RestIntranetDataStore implements IntranetDataStore {
         params.put("TelefonoCelularTextBox", cellPhone);
         params.put("CargoDropDownList", cargo);
         params.put("SexoDropDownList", sex);
-        Log.d("PersonalInfo",params.toString());
+        Log.d("PersonalInfo", params.toString());
         Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().updateUserData(params);
         call.enqueue(new Callback<ServiceResponse<Object>>() {
             @Override
@@ -505,21 +510,21 @@ public class RestIntranetDataStore implements IntranetDataStore {
         params.put("numeroTarjeta", cardNumber);
         */
 
-        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(cardNumber,reasonId);
+        Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().blockCard(cardNumber, reasonId);
         call.enqueue(new Callback<ServiceResponse<Object>>() {
             @Override
             public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
-                if(response.isSuccessful()){
-                    if(response.body() != null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         if (response.body().isError()) {
                             callback.onError(response.body().getMessage());
                         } else {
                             callback.onSuccess(response.body().getMessage());
                         }
-                    }else{
+                    } else {
                         callback.onError("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente.");
                     }
-                }else{
+                } else {
                     callback.onError("Ocurrio un error al momento de realizar su petición, por favor inténtelo nuevamente.");
                 }
             }
@@ -540,7 +545,19 @@ public class RestIntranetDataStore implements IntranetDataStore {
                 if (response.isSuccessful()) {
                     repositoryCallback.onSuccess(response.body().getData());
                 } else {
-                    repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                    if (response.errorBody() != null) {
+                        try {
+                            ServiceResponse serviceResponse = new Gson().fromJson(response.errorBody().string(), ServiceResponse.class);
+                            if(serviceResponse != null)
+                                repositoryCallback.onError(serviceResponse.getMessage());
+                            else
+                                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                        } catch (Exception e) {
+                            repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                            Log.wtf("ERROR!!! ->" , e.getMessage());
+                        }
+                    } else
+                        repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
                 }
             }
 
@@ -574,7 +591,7 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
     @Override
     public void getShippingAddress(String cardNumber, String deliveryId, final RepositoryCallback repositoryCallback) {
-        Call<ServiceResponse<List<ShippingAddressEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getShippingAddress(cardNumber,deliveryId);
+        Call<ServiceResponse<List<ShippingAddressEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getShippingAddress(cardNumber, deliveryId);
         call.enqueue(new Callback<ServiceResponse<List<ShippingAddressEntityData>>>() {
             @Override
             public void onResponse(Call<ServiceResponse<List<ShippingAddressEntityData>>> call, Response<ServiceResponse<List<ShippingAddressEntityData>>> response) {
@@ -594,14 +611,26 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
     @Override
     public void getReplenishmentAmount(String cardNumber, String ubigeo, final RepositoryCallback repositoryCallback) {
-        Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getReplenishmentAmount(cardNumber,ubigeo);
+        Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getReplenishmentAmount(cardNumber, ubigeo);
         call.enqueue(new Callback<ServiceResponse<List<ReplenishmentAmountEntityData>>>() {
             @Override
             public void onResponse(Call<ServiceResponse<List<ReplenishmentAmountEntityData>>> call, Response<ServiceResponse<List<ReplenishmentAmountEntityData>>> response) {
                 if (response.isSuccessful()) {
                     repositoryCallback.onSuccess(response.body().getData());
                 } else {
-                    repositoryCallback.onError("Ocurrió un error al momento de realizar su transacción. Inténtelo nuevamente");
+                    if (response.errorBody() != null) {
+                        try {
+                            ServiceResponse serviceResponse = new Gson().fromJson(response.errorBody().string(), ServiceResponse.class);
+                            if(serviceResponse != null)
+                                repositoryCallback.onError(serviceResponse.getMessage());
+                            else
+                                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                        } catch (Exception e) {
+                            repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                            Log.wtf("ERROR!!! ->" , e.getMessage());
+                        }
+                    } else
+                        repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
                 }
             }
 
@@ -624,16 +653,28 @@ public class RestIntranetDataStore implements IntranetDataStore {
         params.put("Provincia", replacementCardEntity.getProvinceId());
         params.put("Distrito", replacementCardEntity.getDistrictId());
         params.put("NroTarjeta", replacementCardEntity.getCardNumber());
+        params.put("CorreoElectronico", replacementCardEntity.getEmail());
 
-        Log.wtf("ReplaceCard!!",params.toString());
         Call<ServiceResponse<Object>> call = ApiClient.getSodexoIntranetApiClient().replaceCard(params);
         call.enqueue(new Callback<ServiceResponse<Object>>() {
             @Override
             public void onResponse(Call<ServiceResponse<Object>> call, Response<ServiceResponse<Object>> response) {
-                if (response.body().isError()) {
-                    repositoryCallback.onError(response.body().getMessage());
-                } else {
+                if(response.isSuccessful()){
                     repositoryCallback.onSuccess(response.body().getMessage());
+                }else{
+                    if (response.errorBody() != null) {
+                        try {
+                            ServiceResponse serviceResponse = new Gson().fromJson(response.errorBody().string(), ServiceResponse.class);
+                            if(serviceResponse != null)
+                                repositoryCallback.onError(serviceResponse.getMessage());
+                            else
+                                repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                        } catch (Exception e) {
+                            repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+                            Log.wtf("ERROR!!! ->" , e.getMessage());
+                        }
+                    } else
+                        repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
                 }
             }
 
