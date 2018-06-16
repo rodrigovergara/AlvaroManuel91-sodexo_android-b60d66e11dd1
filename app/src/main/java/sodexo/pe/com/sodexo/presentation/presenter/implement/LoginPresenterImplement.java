@@ -2,6 +2,7 @@ package sodexo.pe.com.sodexo.presentation.presenter.implement;
 
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import sodexo.pe.com.sodexo.data.mapper.IntranetDataMapper;
 import sodexo.pe.com.sodexo.data.repository.IntranetDataRepository;
@@ -38,7 +39,8 @@ public class LoginPresenterImplement implements LoginPresenter {
                 public void onLoginSuccess() {
                     view.hideLoading();
                     if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getBoolean(SodexoApplication.SAVE, false)) {
-                        PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).edit().putString("usuario", dni).putString("password", password).commit();
+                         PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).edit().putString("usuario", dni).putString("password", password).commit();
+
                     }
                     view.navigateToIntranetOptions();
                 }

@@ -4,9 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.tismart.tsmviews.utils.AlertUtils;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +38,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         presenter = new LoginPresenterImplement(this);
+
     }
 
     @OnClick(R.id.btn_login)
     public void login() {
+
         presenter.login(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
@@ -86,4 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             dialog.dismissAllowingStateLoss();
         }
     }
+
+
+
 }

@@ -1,5 +1,7 @@
 package sodexo.pe.com.sodexo.data.datasource.rest.retrofit;
 
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,13 +25,18 @@ public class ApiClient {
 
             Retrofit restAdapter = new Retrofit.Builder()
                     //.baseUrl("http://sodexo.bitperfect.pe/api/App/")
-                    .baseUrl("http://191.98.133.35:8080/api/App/")
+                  //  .baseUrl("http://191.98.133.35:8080/api/App/")
+                    .baseUrl("http://sodexoclub.com.pe/api/App/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();
 
             servicesApiInterface = restAdapter.create(SodexoServiceInterface.class);
+
         }
+
+
+
         return servicesApiInterface;
     }
 
@@ -41,7 +48,8 @@ public class ApiClient {
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
             Retrofit restAdapter = new Retrofit.Builder()
-                    .baseUrl("http://201.234.48.227:8080/ws_alexis/sodexo/")//http://201.234.48.227:8080/ws/sodexo/
+                    //.baseUrl("http://201.234.48.227:8080/ws_alexis/sodexo/")//http://201.234.48.227:8080/ws/sodexo/
+                    .baseUrl("http://201.234.48.227:8080/ws/sodexo/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();

@@ -54,7 +54,9 @@ public class RVOptionIntranetAdapter extends RecyclerView.Adapter<RVOptionIntran
     private LogOutInterface mListener;
 
     public RVOptionIntranetAdapter(Context context, OnClickOptions onClickOptions, Fragment fragment) {
+      //  this.list = new ArrayList<>();
         this.list = new ArrayList<>();
+        Log.d("Tamaño",""+list.size());
         this.context = context;
         mListener = (LogOutInterface) fragment;
         this.onClickOptions = onClickOptions;
@@ -67,17 +69,22 @@ public class RVOptionIntranetAdapter extends RecyclerView.Adapter<RVOptionIntran
 
     @Override
     public void onBindViewHolder(OptionIntranetViewHolder holder, int position) {
+        Log.d("Tag","evalua");
         if (position < list.size()) {
-            final OptionIntranetEntity optionIntranetEntity = list.get(position);
-            holder.ivBackgroundOptionIntranet.setBackgroundColor(Color.parseColor(optionIntranetEntity.getImageBackground()));
-            Glide.with(context).load(optionIntranetEntity.getUrlImage()).into(holder.ivOptionIntranet);
-            holder.tvOptionIntranet.setText(optionIntranetEntity.getTitle());
-            holder.ivBackgroundOptionIntranet.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onClickOptions.clickListener(optionIntranetEntity.getId());
-                }
-            });
+
+
+                final OptionIntranetEntity optionIntranetEntity = list.get(position);
+                holder.ivBackgroundOptionIntranet.setBackgroundColor(Color.parseColor(optionIntranetEntity.getImageBackground()));
+                Glide.with(context).load(optionIntranetEntity.getUrlImage()).into(holder.ivOptionIntranet);
+                holder.tvOptionIntranet.setText(optionIntranetEntity.getTitle());
+                holder.ivBackgroundOptionIntranet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onClickOptions.clickListener(optionIntranetEntity.getId());
+                    }
+                });
+
+
         } else {
             holder.ivBackgroundOptionIntranet.setBackgroundColor(Color.GRAY);
             holder.ivOptionIntranet.setImageResource(R.drawable.cerrar_sesion);
@@ -106,6 +113,7 @@ public class RVOptionIntranetAdapter extends RecyclerView.Adapter<RVOptionIntran
                         if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null) != null) {
                             String json = PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null);
                             LoginEntityData data = new Gson().fromJson(json, LoginEntityData.class);
+                            Log.d("Logro obtenido",json);
                             if (!TextUtils.isEmpty(data.getDni())) {
                                 Map<String, String> params = new HashMap<String, String>();
                                 params.put("Usuario", data.getDni());
@@ -156,8 +164,10 @@ public class RVOptionIntranetAdapter extends RecyclerView.Adapter<RVOptionIntran
         builder.setMessage(context.getString(R.string.log_out_confirmation)).setPositiveButton(context.getString(R.string.yes), dialogClickListener)
                 .setNegativeButton(context.getString(R.string.no), dialogClickListener).setCancelable(false).show();
     }
-
+    public Integer contador=0;
+    //OptionIntranetEntity enti= new enti();
     public void addOptions(List<OptionIntranetEntity> list) {
+        Log.d("Lista",list.toString());
         this.list.addAll(list);
         notifyDataSetChanged();
     }

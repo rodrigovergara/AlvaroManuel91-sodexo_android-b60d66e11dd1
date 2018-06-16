@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class LoginIntranetFragment extends Fragment implements LoginView {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d("ocurre donde","donde2");
         dialog = new ProgressCustomDialog();
         presenter = new LoginPresenterImplement(this);
         if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getBoolean(SodexoApplication.SAVE, false)) {

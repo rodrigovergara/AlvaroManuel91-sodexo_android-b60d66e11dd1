@@ -1,6 +1,7 @@
 package sodexo.pe.com.sodexo.data.repository;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -73,6 +74,7 @@ public class IntranetDataRepository implements IntranetRepository {
             public void onSuccess(Object object) {
                 String json = new Gson().toJson((LoginEntityData) object);
                 PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).edit().putString(SodexoApplication.USER_DATA, json).commit();
+                Log.d("por fin",json);
                 callback.onLoginSuccess();
             }
         });
@@ -233,6 +235,7 @@ public class IntranetDataRepository implements IntranetRepository {
 
             @Override
             public void onSuccess(Object object) {
+
                 callback.onGetIntranetOptionSuccess(dataMapper.transformToOptionEntity((List<IntranetOptionEntityData>) object));
             }
         });

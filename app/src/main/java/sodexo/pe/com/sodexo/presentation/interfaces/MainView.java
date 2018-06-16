@@ -80,4 +80,6 @@ public interface MainView {
     void openDeliveryInformation(String cardNumber);
 
     void openPaymentInformationSummary(ReplacementCardEntity replacementCardEntity);
+
+    void openMundial(String url);
 }

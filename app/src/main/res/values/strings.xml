@@ -26,7 +26,7 @@
     <string name="delivery_information_text">Información de Pago</string>
     <string name="payment_information_text">Información de Pago</string>
 
-    <string name="last_movements_text">Últimos Movimiepayment_information_textntos</string>
+    <string name="last_movements_text">Últimos Movimientos</string>
     <string name="choose_number_card">Escoge tu número de tarjeta</string>
     <string name="choose_card">Selecciona la tarjeta</string>
     <string name="card_text">Tarjeta :</string>
@@ -68,5 +68,6 @@
     <string name="phone_number_required">Teléfono (*)</string>
     <string name="email_required">Email (*)</string>
     <string name="address_label_required">Dirección (*) </string>
+    <string name="salida">Cerrar Sesión</string>
 
 </resources>

@@ -29,6 +29,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +60,7 @@ import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlockCardFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogDetailFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.BlogListFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.DeliveryInformationFragment;
+import sodexo.pe.com.sodexo.presentation.fragment.intranet.MundialFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PaymentInformationSummaryFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.PromoCommerceFragment;
 import sodexo.pe.com.sodexo.presentation.fragment.intranet.QuizDetailFragment;
@@ -223,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null) != null) {
                     String json = PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null);
                     LoginEntityData data = new Gson().fromJson(json, LoginEntityData.class);
+
+                    Log.d("Primero:",json);
+
                     if (!TextUtils.isEmpty(data.getDni())) {
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("Usuario", data.getDni());
@@ -248,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 Log.d("FCM_TOKEN", "Refreshed token: " + refreshedToken);
             }
         }
+
+
     }
 
     public boolean isGooglePlayServicesAvailable(Activity activity) {
@@ -375,10 +386,53 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void openConfiguration() {
+        String url= obtenerURL("137358","VAMOS.PERU!!!");
+        Log.d("URLE",url);
+
         Fragment fragment = Fragment.instantiate(this, ConfigurationFragment.class.getName());
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, ConfigurationFragment.class.getName()).commit();
         tempFragment = fragment;
     }
+
+
+    public String obtenerURL(String UsuarioId, String palabra)
+    {
+        String UsuMasVMP = UsuarioId+palabra;
+        String url="";
+        String UsuMD5=md5(UsuMasVMP);
+        System.out.println(UsuMD5);
+        url="http://sodexoclub.com.pe//Mundial/FixtureWapper?u="+UsuarioId+"&h="+UsuMD5;
+        System.out.println(url);
+        return url;
+    }
+
+    public String md5(String s) {
+        String resultMd5 = null;
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] result = new byte[md5.getDigestLength()];
+            md5.reset();
+            md5.update(s.getBytes());
+            result = md5.digest();
+
+            StringBuffer buf = new StringBuffer(result.length * 2);
+
+            for (int i = 0; i < result.length; i++) {
+                int intVal = result[i] & 0xff;
+                if (intVal < 0x10) {
+                    buf.append("0");
+                }
+                buf.append(Integer.toHexString(intVal));
+            }
+
+            resultMd5 = buf.toString().toUpperCase();
+            return resultMd5;
+        } catch (NoSuchAlgorithmException e) {
+        }
+
+        return resultMd5;
+    }
+
 
     @Override
     public void openIntranetOption() {
@@ -675,5 +729,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         ft.addToBackStack(fragment.getClass().getName());
         ft.commitAllowingStateLoss();
         tempFragment = fragment;
+    }
+
+    @Override
+    public void openMundial( String algo)
+    {
+        Fragment fragment = Fragment.instantiate(this, MundialFragment.class.getName());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment, MundialFragment.class.getName()).commit();
+        tempFragment = fragment;
+
     }
 }

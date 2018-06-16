@@ -31,6 +31,7 @@ public class SodexoInstanceIdService extends FirebaseInstanceIdService {
         if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null) != null) {
             String json = PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null);
             LoginEntityData data = new Gson().fromJson(json, LoginEntityData.class);
+            Log.d("primero",json);
             if(!TextUtils.isEmpty(data.getDni())){
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Usuario", data.getDni());

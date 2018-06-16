@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sodexo.pe.com.sodexo.presentation.fragment.intranet.MundialFragment">
+
+
+
+
+    <WebView
+        android:id="@+id/webMundial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/boton_regresar"
+        android:contentDescription="@null" />
+
+</LinearLayout>

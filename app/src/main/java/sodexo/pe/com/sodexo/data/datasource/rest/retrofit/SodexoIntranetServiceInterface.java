@@ -39,6 +39,7 @@ public interface SodexoIntranetServiceInterface {
     @GET("get/ListNumTar/{dni}/{numberCard}")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})
     Call<CardDetailEntityData> getCreditCard(@Path("dni") String dni, @Path("numberCard") String numberCard);
+    //Call<CardDetailEntityData> getCreditCard(@Path("dni") String dni, @Path("numberCard") String numberCard);
 
     @GET("get/ConMovTar/{dni}")
     @Headers({"X-API-KEY: 89cae64e572daa4b4e5dbd95edf4dd90"})

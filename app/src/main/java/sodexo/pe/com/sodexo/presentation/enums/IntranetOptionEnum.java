@@ -11,7 +11,8 @@ public enum IntranetOptionEnum {
     BLOG("BLOG"),
     QUIZ("ENCUESTAS"),
     BLOCK_CARD("BLOQUEO"),
-    REPLACE_CARD("REPOSICION");
+    REPLACE_CARD("REPOSICION"),
+    MUNDIAL("MUNDIAL");
     private String value;
 
     IntranetOptionEnum(String value) {

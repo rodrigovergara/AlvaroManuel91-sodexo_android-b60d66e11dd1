@@ -67,46 +67,63 @@ public class RestIntranetDataStore implements IntranetDataStore {
 
     @Override
     public void getCards(String dni, final RepositoryCallback repositoryCallback) {
+        Log.d("Dni:","-"+dni+"-");
+
         Call<ServiceResponse<List<CardEntityData>>> call = ApiClient.getSodexoIntranetApiClient().getCardsNumber(dni);
         call.enqueue(new Callback<ServiceResponse<List<CardEntityData>>>() {
             @Override
             public void onResponse(Call<ServiceResponse<List<CardEntityData>>> call, Response<ServiceResponse<List<CardEntityData>>> response) {
                 if (response.isSuccessful()) {
+                    Log.d("Obtiene al tipo tarj","entro1");
                     repositoryCallback.onSuccess(response.body().getData());
                 } else {
+                    Log.d("Obtiene cards1","obtiene tarjetas1");
                     repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                 }
             }
 
             @Override
             public void onFailure(Call<ServiceResponse<List<CardEntityData>>> call, Throwable t) {
+                Log.d("Obtiene cards fail","obtiene fail");
                 repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
             }
         });
     }
 
     @Override
     public void getCardDetail(String dni, String cardNumber, final RepositoryCallback callback) {
+        Log.d("Dni:","-"+dni+"-");
+        Log.d("CardNumber:","-"+cardNumber+"-");
+
         Call<CardDetailEntityData> call = ApiClient.getSodexoIntranetApiClient().getCreditCard(dni, cardNumber);
         call.enqueue(new Callback<CardDetailEntityData>() {
             @Override
             public void onResponse(Call<CardDetailEntityData> call, Response<CardDetailEntityData> response) {
                 if (response.isSuccessful()) {
                     try {
+                        Log.d("Obtiene fail","obtiene tarjetas correcto");
                         callback.onSuccess(response.body());
                     } catch (Exception ex) {
                         ex.printStackTrace();
+
                         callback.onError("Tarjeta Bloqueada");
+
                     }
                 } else {
+                    Log.d("Obtiene cards dertail1","obtiene tarjetas detail1");
                     callback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<CardDetailEntityData> call, Throwable t) {
+                Log.d("Obtiene fail","obtiene tarjetas detail 2");
                 callback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
             }
         });
     }
@@ -119,20 +136,27 @@ public class RestIntranetDataStore implements IntranetDataStore {
             public void onResponse(Call<ServiceResponse<List<CardTypeEntitiyData>>> call, Response<ServiceResponse<List<CardTypeEntitiyData>>> response) {
                 if (response.isSuccessful()) {
                     try {
+                        Log.d("Obtiene tipo de tarjeta","entro1");
                         repositoryCallback.onSuccess(response.body().getData());
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                        Log.d("Obtiene al tipo taa1","entro1");
                         repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                     }
                 } else {
+                    Log.d("Obtiene al tipo tara2","entro2");
                     repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<ServiceResponse<List<CardTypeEntitiyData>>> call, Throwable t) {
+                Log.d("Obtiene al tipo tara3","entro3");
                 repositoryCallback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
             }
         });
     }
@@ -145,20 +169,25 @@ public class RestIntranetDataStore implements IntranetDataStore {
             public void onResponse(Call<LastMovementsResponse> call, Response<LastMovementsResponse> response) {
                 if (response.isSuccessful()) {
                     try {
+                        Log.d("Obtiene al ul movos","entro1");
                         callback.onSuccess(response.body());
                     } catch (Exception ex) {
+                        Log.d("Obtiene al casi","entro1");
                         callback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                     }
                 } else {
+                    Log.d("Obtiene al casi2","entro2");
                     callback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<LastMovementsResponse> call, Throwable t) {
+                Log.d("Obtiene al casi3","entro3");
                 callback.onError("Ocurrio un error al momento de realizar su transacción. Inténtelo nuevamente");
+
             }
         });
     }

@@ -82,9 +82,9 @@ public class BlogDetailFragment extends Fragment {
             date.setText(blogEntity.getRegisterDate());
             Glide.with(getActivity()).load(blogEntity.getImage()).into(imageView);
             business.setText(blogEntity.isCompanyBlog() ? "Empresarial" : "No empresarial");
+
+
             webview.loadUrl(blogEntity.getUrl());
-
-
             webview.getSettings().setJavaScriptEnabled(true);
             webview.setWebViewClient(new WebViewClient());
             /*webview.setWebChromeClient(new WebChromeClient() {

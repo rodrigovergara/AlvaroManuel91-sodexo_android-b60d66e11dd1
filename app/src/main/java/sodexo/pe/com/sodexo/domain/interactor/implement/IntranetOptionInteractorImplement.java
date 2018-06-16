@@ -1,6 +1,7 @@
 package sodexo.pe.com.sodexo.domain.interactor.implement;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -22,7 +23,9 @@ public class IntranetOptionInteractorImplement implements IntranetOptionInteract
         if (PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null) != null) {
             String json = PreferenceManager.getDefaultSharedPreferences(SodexoApplication.context).getString(SodexoApplication.USER_DATA, null);
             LoginEntityData data = new Gson().fromJson(json, LoginEntityData.class);
-            repository.getOptions(data.getDni(), callback);
+            Log.d("Aca esta","djnfdjsn");
+            Log.d("Segundo",json);
+             repository.getOptions(data.getDni(), callback);
         }
     }
 }

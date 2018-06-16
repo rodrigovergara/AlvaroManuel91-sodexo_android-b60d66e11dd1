@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
     @BindView(R.id.rv_intranet_options)
     RecyclerView rvIntranetOption;
 
+
+
     private RVOptionIntranetAdapter adapter;
     private MainView mainView;
     private IntranetOptionPresenter presenter;
@@ -53,10 +57,16 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
         super.onViewCreated(view, savedInstanceState);
         presenter = new IntranetOptionPresenterImplement(this);
         adapter = new RVOptionIntranetAdapter(getContext(), this, this);
+        Log.d("Antes","Lograra antes de");
         rvIntranetOption.setAdapter(adapter);
         rvIntranetOption.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
         presenter.getIntranetOptions();
+
+
+
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -104,6 +114,10 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
             case REPLACE_CARD:
                 mainView.openReplaceCard();
                 break;
+            case MUNDIAL:
+                mainView.openMundial("url");
+                Log.d("llego aca","aca");
+                break;
         }
     }
 
@@ -129,6 +143,7 @@ public class IntranetOptionFragment extends Fragment implements OnClickOptions, 
 
     @Override
     public void showOptions(List<OptionIntranetEntity> list) {
+
         adapter.addOptions(list);
     }
 

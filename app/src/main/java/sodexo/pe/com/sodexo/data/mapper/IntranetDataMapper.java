@@ -114,6 +114,13 @@ public class IntranetDataMapper {
             entity.setUrlImage(option.getImage());
             list.add(entity);
         }
+        OptionIntranetEntity entity = new OptionIntranetEntity();
+        entity.setId("MUNDIAL");
+        entity.setTitle("Mundial Sodexo");
+        entity.setImageBackground("#B40404");
+        entity.setUrlImage("http://sodexoclub.com.pe/Content/Front/img/cuenta/btnMundial.png");
+        list.add(entity);
+
         return list;
     }
 
